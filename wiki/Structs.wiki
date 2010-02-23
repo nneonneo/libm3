@@ -1,0 +1,32 @@
+#summary M3 structs.
+
+= Introduction =
+
+These are the structures found so far in the .m3 files.
+
+
+= Details =
+
+{{{
+struct Reference 
+{ 
+    /*0x00*/ uint32 entries; 
+    /*0x04*/ uint32 referenceid; 
+}; 
+
+struct ReferenceEntry 
+{ 
+    /*0x00*/ char id[4]; 
+    /*0x04*/ uint32 offset; 
+    /*0x08*/ uint32 nEntries; 
+    /*0x0C*/ uint32 nFields; 
+}; 
+
+struct ModelHeader 
+{ 
+    /*0x00*/ char id[4]; 
+    /*0x04*/ uint32 ofsRefs; 
+    /*0x08*/ uint32 nRefs; 
+    /*0x0C*/ Reference MODL; 
+};
+}}}
