@@ -11,7 +11,7 @@ These are the structures found so far in the .m3 files.
 struct Reference 
 {
     /*0x00*/ uint32 nEntries;
-    /*0x04*/ uint32 nRefId;
+    /*0x04*/ uint32 refId;
 };
 
 struct ReferenceEntry 
