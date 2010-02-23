@@ -41,3 +41,4 @@ The data types used in the references are documented here.
 || BAT_ || _?_ ||
 || LAYR || _Layer? Textures? ||
 || IREF || _?_ ||
+|| BNDS || _?_ ||
