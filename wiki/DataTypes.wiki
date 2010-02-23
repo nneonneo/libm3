@@ -1,0 +1,42 @@
+#summary Data types used in the .m3 files.
+
+= Introduction =
+
+The data types used in the references are documented here.
+
+
+= Details =
+
+===Primitives===
+|| CHAR || _char_ ||
+|| U32_ || _uint32_t_ ||
+|| U16_ || _uint16_t_ ||
+|| I32_ || _int32_t_ ||
+|| I16_ || _int16_t_ ||
+|| U8__ || _uint8_t_ ||
+|| I8__ || _int18_t_ ||
+
+===Structs===
+|| MD33 || _File header_ ||
+|| MODL || _Model header_ ||
+|| SEQS || _Animation_ ||
+|| EVNT || _Event_ ||
+|| VEC2 || _Vec2D_ ||
+|| VEC3 || _Vec3D_ ||
+|| VEC4 || _Vec4D_ ||
+|| QUAT || _Quaternion_ ||
+|| BONE || _Bone_ ||
+|| ATT_ || _Attachment_ ||
+
+===Unknown===
+|| STC_ || _?_ ||
+|| STG_ || _?_ ||
+|| STS_ || _?_ ||
+|| DIV_ || _?_ ||
+|| MSEC || _?_ ||
+|| REGN || _?_ ||
+|| MAT_ || _?_ ||
+|| MATM || _?_ ||
+|| BAT_ || _?_ ||
+|| LAYR || _Layer? Textures? ||
+|| IREF || _?_ ||
