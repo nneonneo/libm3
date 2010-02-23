@@ -32,6 +32,7 @@ The data types used in the references are documented here.
 || STC_ || _?_ ||
 || STG_ || _?_ ||
 || STS_ || _?_ ||
+|| SDEV || _?_ ||
 || DIV_ || _?_ ||
 || MSEC || _?_ ||
 || REGN || _?_ ||
