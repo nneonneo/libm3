@@ -40,7 +40,7 @@ The data types used in the references are documented here.
 || BAT  || _?_ ||
 || LAYR || _Layer? Textures?_ ||
 || IREF || _?_ ||
-|| BNDS || _Binding?_ ||
+|| BNDS || _Binding? Related to sequences somehow_ ||
 || REAL || _Real numbers?!_ ||
 || SDEV || _EVNT related_ ||
 || SDMB || _BNDS related_ ||
