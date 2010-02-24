@@ -28,6 +28,14 @@ The data types used in the references are documented here.
 || QUAT || _Quaternion_ ||
 || BONE || _Bone_ ||
 || ATT  || _Attachment_ ||
+|| MAT  || _Material_ ||
+|| LAYR || _Texture_ ||
+|| BNDS || _Bounding extents_ ||
+|| SDEV || _Sequence data - EVNT_ ||
+|| SDMB || _Sequence data - BNDS_ ||
+|| SD3V || _Sequence data - VEC3_ ||
+|| SD4Q || _Sequence data - QUAT_ ||
+|| SD3R || _Sequence data - REAL_ ||
 
 ===Unknown===
 || STC  || _Sequence stuff_ ||
@@ -36,18 +44,10 @@ The data types used in the references are documented here.
 || DIV  || _?_ ||
 || MSEC || _?_ ||
 || REGN || _?_ ||
-|| MAT  || _Material_ ||
 || MATM || _?_ ||
 || BAT  || _?_ ||
-|| LAYR || _Texture_ ||
 || IREF || _Matrix?_ ||
 || FOR  || _?_ ||
-|| BNDS || _Bounding extents_ ||
-|| SDEV || _Sequence data - EVNT_ ||
-|| SDMB || _Sequence data - BNDS_ ||
-|| SD3V || _Sequence data - VEC3_ ||
-|| SD4Q || _Sequence data - QUAT_ ||
-|| SD3R || _Sequence data - REAL_ ||
 || SSGS || _?_ ||
 || DIS  || _?_ ||
 || LITE || _?_ ||
