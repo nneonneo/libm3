@@ -30,7 +30,7 @@ The data types used in the references are documented here.
 || ATT  || _Attachment_ ||
 
 ===Unknown===
-|| STC  || _?_ ||
+|| STC  || _Sequence stuff_ ||
 || STG  || _?_ ||
 || STS  || _?_ ||
 || DIV  || _?_ ||
@@ -42,7 +42,7 @@ The data types used in the references are documented here.
 || LAYR || _Texture_ ||
 || IREF || _Matrix?_ ||
 || FOR  || _?_ ||
-|| BNDS || _Binding? Related to sequences somehow_ ||
+|| BNDS || _Some sort of floats, I think_ ||
 || SDEV || _Sequence data - EVNT_ ||
 || SDMB || _Sequence data - BNDS_ ||
 || SD3V || _Sequence data - VEC3_ ||
