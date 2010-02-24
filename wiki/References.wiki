@@ -13,3 +13,5 @@ Each reference header contains the data type in the list, the number of entries 
 
 There is a fourth value in the reference header, which purpose is unknown. But the size of the block can depend on this value.
 For example the MODL block in units/buildings have a different value here compared to the MODL block in skyboxes, and the size of the block / number of fields in the block is different.
+
+Each animation sequence has related SD-blocks which references the data used by the animation.
