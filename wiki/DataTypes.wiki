@@ -42,7 +42,7 @@ The data types used in the references are documented here.
 || LAYR || _Texture_ ||
 || IREF || _Matrix?_ ||
 || FOR  || _?_ ||
-|| BNDS || _Some sort of floats, I think_ ||
+|| BNDS || _Bounding extents_ ||
 || SDEV || _Sequence data - EVNT_ ||
 || SDMB || _Sequence data - BNDS_ ||
 || SD3V || _Sequence data - VEC3_ ||
