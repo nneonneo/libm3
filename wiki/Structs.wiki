@@ -49,7 +49,7 @@ struct BONE
 // Incomplete
 struct DIV
 {
-    /*0x00*/ Reference U16;
+    /*0x00*/ Reference U16; // Might be triangles?
     /*0x08*/ Reference REGN;
     /*0x10*/ Reference BAT;
     /*0x18*/ Reference MSEC;
