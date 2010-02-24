@@ -48,3 +48,4 @@ The data types used in the references are documented here.
 || SD3V || _Sequence data - VEC3_ ||
 || SD4Q || _Sequence data - QUAT_ ||
 || SD3R || _Sequence data - REAL_ ||
+|| SSGS || _?_ ||
