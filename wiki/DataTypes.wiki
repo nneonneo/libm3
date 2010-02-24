@@ -35,14 +35,14 @@ The data types used in the references are documented here.
 || DIV_ || _?_ ||
 || MSEC || _?_ ||
 || REGN || _?_ ||
-|| MAT_ || _?_ ||
-|| MATM || _?_ ||
+|| MAT_ || _Matrix?_ ||
+|| MATM || _Matrix?_ ||
 || BAT_ || _?_ ||
 || LAYR || _Layer? Textures? ||
 || IREF || _?_ ||
-|| BNDS || _?_ ||
+|| BNDS || _Binding?_ ||
 || REAL || _?_ ||
-|| SDEV || _?_ ||
-|| SDMB || _?_ ||
-|| SD3V || _?_ ||
-|| SD4Q || _?_ ||
+|| SDEV || _EVNT related_ ||
+|| SDMB || _BNDS related_ ||
+|| SD3V || _VEC3 related_ ||
+|| SD4Q || _QUAT related_ ||
