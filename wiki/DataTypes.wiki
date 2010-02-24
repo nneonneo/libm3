@@ -41,6 +41,7 @@ The data types used in the references are documented here.
 || BAT  || _?_ ||
 || LAYR || _Texture_ ||
 || IREF || _?_ ||
+|| FOR  || _?_ ||
 || BNDS || _Binding? Related to sequences somehow_ ||
 || SDEV || _Sequence data - EVNT_ ||
 || SDMB || _Sequence data - BNDS_ ||
