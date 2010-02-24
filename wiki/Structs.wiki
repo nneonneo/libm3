@@ -98,12 +98,16 @@ struct STS
     /*0x16*/ int16 s2;
 };
 
+// Size = 16 byte / 0x10 byte
+// Complete
 struct STG
 {
     /*0x00*/ Reference name;
     /*0x08*/ Reference stcID;
 };
 
+// Size = 56 byte / 0x38 byte
+// Incomplete
 struct BNDS
 {
     /*0x00*/ Vec3D extents1[2];
