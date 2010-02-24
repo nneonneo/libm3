@@ -8,7 +8,7 @@ These are the structures found so far in the .m3 files.
 = Details =
 
 {{{
-// Size = 8 byte
+// Size = 8 byte / 0x08 byte
 // Complete
 struct Reference 
 {
@@ -16,7 +16,7 @@ struct Reference
     /*0x04*/ uint32 ref;
 };
 
-// Size = 16 byte
+// Size = 16 byte / 0x10 byte
 // Incomplete
 struct ReferenceEntry 
 { 
@@ -25,7 +25,7 @@ struct ReferenceEntry
     /*0x08*/ uint32 nEntries; 
     /*0x0C*/ uint32 d1; // Possibly nReferences;
 }; 
-// Size = 20 byte
+// Size = 20 byte / 0x14 byte
 // Complete
 struct MD33
 { 
@@ -35,7 +35,7 @@ struct MD33
     /*0x0C*/ Reference MODL; 
 };
 
-// Size = 156 byte
+// Size = 156 byte / 0x9C byte
 // Incomplete
 struct BONE
 {
@@ -45,7 +45,7 @@ struct BONE
     /*0x10*/ int16 parent;
 };
 
-// Size = 24 byte
+// Size = 24 byte / 0x18 byte
 // Complete
 struct SD
 {
@@ -53,7 +53,7 @@ struct SD
     /*0x08*/ Reference data;
 };
 
-// Size = 140 byte
+// Size = 140 byte / 0x8C byte
 // Incomplete
 struct STC
 {
@@ -68,5 +68,15 @@ struct STC
     /*0x24*/ Reference evt;
     /*0x2C*/ Reference unk4[11]; // Seems to be transformation data
     /*0x84*/ Reference bnds;
+};
+
+// Size = 24 byte / 0x18 byte
+// Incomplete
+struct STS
+{
+    /*0x00*/ Reference unk1;
+    /*0x08*/ int32 unk[3];
+    /*0x14*/ int16 s1;
+    /*0x16*/ int16 s2;
 };
 }}}
