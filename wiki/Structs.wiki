@@ -52,4 +52,21 @@ struct SD
     /*0x00*/ Reference timeline;
     /*0x08*/ Reference data;
 };
+
+// Size = 140 byte
+// Incomplete
+struct STC
+{
+    /*0x00*/ Reference name;
+    /*0x08*/ uint16 s1;
+    /*0x0A*/ uint16 s2;
+    /*0x0C*/ uint16 s3;
+    /*0x0E*/ uint16 s4;
+    /*0x12*/ Reference unk2; // uint32
+    /*0x1A*/ Reference unk3; // uint32
+    /*0x22*/ uint32 d3;
+    /*0x24*/ Reference evt;
+    /*0x2C*/ Reference unk4[11]; // Seems to be transformation data
+    /*0x84*/ Reference bnds;
+};
 }}}
