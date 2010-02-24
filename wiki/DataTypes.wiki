@@ -26,7 +26,7 @@ The data types used in the references are documented here.
 || VEC4 || _Vec4D_ ||
 || QUAT || _Quaternion_ ||
 || BONE || _Bone_ ||
-|| ATT_ || _Attachment_ ||
+|| ATT  || _Attachment_ ||
 
 ===Unknown===
 || STC  || _?_ ||
