@@ -38,7 +38,7 @@ The data types used in the references are documented here.
 || MAT_ || _Matrix?_ ||
 || MATM || _Matrix?_ ||
 || BAT_ || _?_ ||
-|| LAYR || _Layer? Textures? ||
+|| LAYR || _Layer? Textures?_ ||
 || IREF || _?_ ||
 || BNDS || _Binding?_ ||
 || REAL || _?_ ||
