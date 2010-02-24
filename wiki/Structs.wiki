@@ -97,4 +97,32 @@ struct STS
     /*0x14*/ int16 s1;
     /*0x16*/ int16 s2;
 };
+
+struct BNDS
+{
+    /*0x00*/ Vec3D extents1[2];
+    /*0x18*/ float radius1;
+    /*0x1C*/ Vec3D extents2[2];
+    /*0x34*/ float radius2;
+};
+
+struct VEC2
+{
+    float x, y;
+};
+
+struct VEC3
+{
+    float x, y, z;
+};
+
+struct VEC4
+{
+    float x, y, z, w;
+};
+
+struct QUAT
+{
+    float, x, y, z, w;
+};
 }}}
