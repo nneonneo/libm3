@@ -44,10 +44,10 @@ The data types used in the references are documented here.
 || STG  || _?_ ||
 || STS  || _?_ ||
 || DIV  || _?_ ||
-|| MSEC || _?_ ||
-|| REGN || _?_ ||
+|| MSEC || _floats?_ ||
+|| REGN || _floats?_ ||
+|| BAT  || _floats?_ ||
 || MATM || _?_ ||
-|| BAT  || _?_ ||
 || IREF || _Matrix?_ ||
 || FOR  || _?_ ||
 || SSGS || _?_ ||
