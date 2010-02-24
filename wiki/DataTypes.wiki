@@ -15,11 +15,12 @@ The data types used in the references are documented here.
 || I16  || _int16_t_ ||
 || U8   || _uint8_t_ ||
 || I8   || _int18_t_ ||
+|| REAL || _float_ ||
 
 ===Structs===
 || MD33 || _File header_ ||
 || MODL || _Model header_ ||
-|| SEQS || _Animation_ ||
+|| SEQS || _Sequence_ ||
 || EVNT || _Event_ ||
 || VEC2 || _Vec2D_ ||
 || VEC3 || _Vec3D_ ||
@@ -41,9 +42,8 @@ The data types used in the references are documented here.
 || LAYR || _Layer? Textures?_ ||
 || IREF || _?_ ||
 || BNDS || _Binding? Related to sequences somehow_ ||
-|| REAL || _Real numbers?!_ ||
-|| SDEV || _EVNT related_ ||
-|| SDMB || _BNDS related_ ||
-|| SD3V || _VEC3 related_ ||
-|| SD4Q || _QUAT related_ ||
-|| SD3R || _REAL related_ ||
+|| SDEV || _Sequence data - EVNT_ ||
+|| SDMB || _Sequence data - BNDS_ ||
+|| SD3V || _Sequence data - VEC3_ ||
+|| SD4Q || _Sequence data - QUAT_ ||
+|| SD3R || _Sequence data - REAL_ ||
