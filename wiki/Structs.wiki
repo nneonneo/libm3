@@ -8,25 +8,39 @@ These are the structures found so far in the .m3 files.
 = Details =
 
 {{{
+// Size = 8 byte
+// Complete
 struct Reference 
 {
     /*0x00*/ uint32 nEntries;
-    /*0x04*/ uint32 refId;
+    /*0x04*/ uint32 ref;
 };
 
+// Size = 16 byte
+// Incomplete
 struct ReferenceEntry 
 { 
     /*0x00*/ char id[4]; 
     /*0x04*/ uint32 offset; 
     /*0x08*/ uint32 nEntries; 
-    /*0x0C*/ uint32 nFields; 
+    /*0x0C*/ uint32 d1; // Seems to be related to size of block / number of fields.
 }; 
-
-struct ModelHeader 
+// Size = 20 byte
+// Complete
+struct FileHeader
 { 
     /*0x00*/ char id[4]; 
     /*0x04*/ uint32 ofsRefs; 
     /*0x08*/ uint32 nRefs; 
     /*0x0C*/ Reference MODL; 
+};
+
+// Size = 156 byte
+// Incomplete
+struct BONE
+{
+    /*0x00*/ int32 d1; // Keybone?
+    /*0x04*/ Reference name;
+    /*0x0C*/ uint32 flags;
 };
 }}}
