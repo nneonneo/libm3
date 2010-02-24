@@ -27,7 +27,7 @@ struct ReferenceEntry
 }; 
 // Size = 20 byte
 // Complete
-struct FileHeader
+struct MD33
 { 
     /*0x00*/ char id[4]; 
     /*0x04*/ uint32 ofsRefs; 
@@ -43,5 +43,13 @@ struct BONE
     /*0x04*/ Reference name;
     /*0x0C*/ uint32 flags;
     /*0x10*/ int16 parent;
+};
+
+// Size = 24 byte
+// Complete
+struct SD
+{
+    /*0x00*/ Reference timeline;
+    /*0x08*/ Reference data;
 };
 }}}
