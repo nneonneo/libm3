@@ -98,6 +98,12 @@ struct STS
     /*0x16*/ int16 s2;
 };
 
+struct STG
+{
+    /*0x00*/ Reference name;
+    /*0x08*/ Reference stcID;
+};
+
 struct BNDS
 {
     /*0x00*/ Vec3D extents1[2];
