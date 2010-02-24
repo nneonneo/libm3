@@ -9,12 +9,12 @@ The data types used in the references are documented here.
 
 ===Primitives===
 || CHAR || _char_ ||
-|| U32_ || _uint32_t_ ||
-|| U16_ || _uint16_t_ ||
-|| I32_ || _int32_t_ ||
-|| I16_ || _int16_t_ ||
-|| U8__ || _uint8_t_ ||
-|| I8__ || _int18_t_ ||
+|| U32  || _uint32_t_ ||
+|| U16  || _uint16_t_ ||
+|| I32  || _int32_t_ ||
+|| I16  || _int16_t_ ||
+|| U8   || _uint8_t_ ||
+|| I8   || _int18_t_ ||
 
 ===Structs===
 || MD33 || _File header_ ||
@@ -29,15 +29,15 @@ The data types used in the references are documented here.
 || ATT_ || _Attachment_ ||
 
 ===Unknown===
-|| STC_ || _?_ ||
-|| STG_ || _?_ ||
-|| STS_ || _?_ ||
-|| DIV_ || _?_ ||
+|| STC  || _?_ ||
+|| STG  || _?_ ||
+|| STS  || _?_ ||
+|| DIV  || _?_ ||
 || MSEC || _?_ ||
 || REGN || _?_ ||
-|| MAT_ || _Matrix?_ ||
+|| MAT  || _Matrix?_ ||
 || MATM || _Matrix?_ ||
-|| BAT_ || _?_ ||
+|| BAT  || _?_ ||
 || LAYR || _Layer? Textures?_ ||
 || IREF || _?_ ||
 || BNDS || _Binding?_ ||
