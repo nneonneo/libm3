@@ -56,3 +56,4 @@ The data types used in the references are documented here.
 || PHRB || _?_ ||
 || ATVL || _?_ ||
 || BBSC || _?_ ||
+|| FLAG || _?_ ||
