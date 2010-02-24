@@ -36,8 +36,8 @@ The data types used in the references are documented here.
 || DIV  || _?_ ||
 || MSEC || _?_ ||
 || REGN || _?_ ||
-|| MAT  || _Matrix?_ ||
-|| MATM || _Matrix?_ ||
+|| MAT  || _Material?_ ||
+|| MATM || _?_ ||
 || BAT  || _?_ ||
 || LAYR || _Layer? Textures?_ ||
 || IREF || _?_ ||
