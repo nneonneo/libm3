@@ -23,7 +23,7 @@ struct ReferenceEntry
     /*0x00*/ char id[4]; 
     /*0x04*/ uint32 offset; 
     /*0x08*/ uint32 nEntries; 
-    /*0x0C*/ uint32 d1; // Seems to be related to size of block / number of fields.
+    /*0x0C*/ uint32 d1; // Possibly nReferences;
 }; 
 // Size = 20 byte
 // Complete
