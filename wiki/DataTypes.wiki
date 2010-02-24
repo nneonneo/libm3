@@ -49,3 +49,10 @@ The data types used in the references are documented here.
 || SD4Q || _Sequence data - QUAT_ ||
 || SD3R || _Sequence data - REAL_ ||
 || SSGS || _?_ ||
+|| DIS  || _?_ ||
+|| LITE || _?_ ||
+|| PAR  || _?_ ||
+|| PARC || _?_ ||
+|| PHRB || _?_ ||
+|| ATVL || _?_ ||
+|| BBSC || _?_ ||
