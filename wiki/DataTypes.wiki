@@ -52,10 +52,10 @@ The data types used in the references are documented here.
 || FOR  || _?_ ||
 || SSGS || _?_ ||
 || DIS  || _?_ ||
-|| LITE || _?_ ||
+|| LITE || _Lights?_ ||
 || PAR  || _?_ ||
 || PARC || _?_ ||
 || PHRB || _?_ ||
 || ATVL || _?_ ||
 || BBSC || _?_ ||
-|| FLAG || _?_ ||
+|| FLAG || _uint16, uint16?_ ||
