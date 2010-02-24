@@ -41,7 +41,7 @@ The data types used in the references are documented here.
 || LAYR || _Layer? Textures?_ ||
 || IREF || _?_ ||
 || BNDS || _Binding?_ ||
-|| REAL || _?_ ||
+|| REAL || _Real numbers?!_ ||
 || SDEV || _EVNT related_ ||
 || SDMB || _BNDS related_ ||
 || SD3V || _VEC3 related_ ||
