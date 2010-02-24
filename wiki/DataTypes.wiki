@@ -46,3 +46,4 @@ The data types used in the references are documented here.
 || SDMB || _BNDS related_ ||
 || SD3V || _VEC3 related_ ||
 || SD4Q || _QUAT related_ ||
+|| SD3R || _REAL related_ ||
