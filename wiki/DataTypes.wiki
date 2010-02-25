@@ -62,5 +62,5 @@ The data types used in the references are documented here.
 || FLAG || _uint16, uint16?_ ||
 || PHSH || _?_ ||
 || PROJ || _?_ ||
-|| CMP  || _?_ ||
+|| CMP  || _?_ || _Found in LavaSilver.m3_ ||
 || CMS  || _?_ || _Found in LavaSilver.m3_ ||
