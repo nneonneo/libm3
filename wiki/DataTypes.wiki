@@ -38,6 +38,7 @@ The data types used in the references are documented here.
 || SD3R || _Sequence data - REAL_ ||
 || SDFG || _Sequence data - FLAG_ ||
 || SDS6 || _Sequence data - I16_ ||
+|| CAM  || _Camera_ ||
 
 ===Unknown===
 || STC  || _Sequence stuff_ ||
