@@ -61,6 +61,8 @@ struct CAM
 {
     /*0x00*/ int32 d1;
     /*0x04*/ Reference name;
+    /*0x0C*/ uint16 flags1;
+    /*0x0E*/ uint16 flags2;
 };
 
 // Size = 96 byte/ 0x60 byte
