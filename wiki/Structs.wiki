@@ -79,6 +79,8 @@ struct ATT
 struct SD
 {
     /*0x00*/ Reference timeline;
+    /*0x08*/ uint32 flags;
+    /*0x0C*/ uint32 length;
     /*0x08*/ Reference data;
 };
 
