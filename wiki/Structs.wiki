@@ -65,6 +65,12 @@ struct CAM
     /*0x0E*/ uint16 flags2;
 };
 
+// Size = 388 byte / 0x184 byte
+// Incomplete
+struct PROJ
+{
+};
+
 // Size = 96 byte/ 0x60 byte
 // Incomplete
 struct EVNT
