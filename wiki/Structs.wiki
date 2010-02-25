@@ -55,6 +55,14 @@ struct DIV
     /*0x18*/ Reference MSEC;
 };
 
+// Size = 176 byte / 0xB0 byte
+// Incomplete
+struct CAM
+{
+    /*0x00*/ int32 d1;
+    /*0x04*/ Reference name;
+};
+
 // Size = 96 byte/ 0x60 byte
 // Incomplete
 struct EVNT
