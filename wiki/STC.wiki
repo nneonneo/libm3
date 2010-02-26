@@ -7,6 +7,8 @@ References sequence data.
 
 = Details =
 
+{{{
+
 // Size = 140 byte / 0x8C byte
 // Incomplete
 struct STC
@@ -23,3 +25,5 @@ struct STC
     /*0x2C*/ Reference unk4[11]; // Seems to be transformation data
     /*0x84*/ Reference bnds;
 };
+
+}}}
