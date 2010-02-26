@@ -1,0 +1,22 @@
+#summary SD defs
+
+= Introduction =
+
+References sequence data.
+
+
+= Details =
+
+{{{
+
+// Size = 24 byte / 0x18 byte
+// Complete
+struct SD
+{
+    /*0x00*/ Reference timeline;
+    /*0x08*/ uint32 flags;
+    /*0x0C*/ uint32 length;
+    /*0x08*/ Reference data;
+};
+
+}}}
