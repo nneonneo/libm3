@@ -18,31 +18,31 @@ The data types used in the references are documented here.
 || REAL || _float_ ||
 
 ===Structs===
-|| MD33 || _File header_ || 11 ||
-|| MODL || _Model header_ || 20, 23 ||
-|| SEQS || _Sequence_ || 1 ||
-|| EVNT || _Event_ || 0 ||
-|| VEC2 || _Vec2D_ || 0 ||
-|| VEC3 || _Vec3D_ || 0 ||
-|| VEC4 || _Vec4D_ ||
-|| QUAT || _Quaternion_ ||
-|| BONE || _Bone_ || 1 ||
-|| ATT  || _Attachment_ ||
-|| MAT  || _Material_ || 15 ||
-|| LAYR || _Texture_ || 20 ||
-|| BNDS || _Bounding extents_ ||
-|| SDEV || _Sequence data - EVNT_ || 0 ||
-|| SDMB || _Sequence data - BNDS_ ||
-|| SD2V || _Sequence data - VEC2_ || 0 ||
-|| SD3V || _Sequence data - VEC3_ ||
-|| SD4Q || _Sequence data - QUAT_ ||
-|| SD3R || _Sequence data - REAL_ ||
-|| SDFG || _Sequence data - FLAG_ ||
-|| SDS6 || _Sequence data - I16_ ||
-|| CAM  || _Camera_ ||
+|| [MD33] || _File header_ || 11 ||
+|| [MODL] || _Model header_ || 20, 23 ||
+|| [SEQS] || _Sequence_ || 1 ||
+|| [EVNT] || _Event_ || 0 ||
+|| [VEC2] || _Vec2D_ || 0 ||
+|| [VEC3] || _Vec3D_ || 0 ||
+|| [VEC4] || _Vec4D_ ||
+|| [QUAT] || _Quaternion_ ||
+|| [BONE] || _Bone_ || 1 ||
+|| [ATT]  || _Attachment_ ||
+|| [MAT]  || _Material_ || 15 ||
+|| [LAYR] || _Texture_ || 20 ||
+|| [BNDS] || _Bounding extents_ ||
+|| [SDEV] || _Sequence data - EVNT_ || 0 ||
+|| [SDMB] || _Sequence data - BNDS_ ||
+|| [SD2V] || _Sequence data - VEC2_ || 0 ||
+|| [SD3V] || _Sequence data - VEC3_ ||
+|| [SD4Q] || _Sequence data - QUAT_ ||
+|| [SD3R] || _Sequence data - REAL_ ||
+|| [SDFG] || _Sequence data - FLAG_ ||
+|| [SDS6] || _Sequence data - I16_ ||
+|| [CAM]  || _Camera_ ||
 
 ===Unknown===
-|| STC  || _Sequence stuff_ || 4 ||
+|| [STC]  || _Sequence stuff_ || 4 ||
 || STG  || _?_ || 0 ||
 || STS  || _?_ ||
 || DIV  || _?_ || 2 ||
