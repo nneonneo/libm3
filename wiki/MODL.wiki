@@ -20,7 +20,7 @@ MODL20
 || 0x48  || U8__ ||
 || 0x50  || DIV_ ||
 || 0x58  || U16_ ||
-|| 0x60  || Extents || // Vec3D[2] + float
+|| 0x60  || Extents || Vec3D[2] + float ||
 || 0xb0  || ATT_ ||
 || 0xb8  || U16_ ||
 || 0xc0  || LITE ||
