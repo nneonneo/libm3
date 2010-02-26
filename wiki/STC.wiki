@@ -24,9 +24,9 @@ struct STC
     /*0x12*/ Reference unk2; // uint32
     /*0x1A*/ Reference unk3; // uint32
     /*0x22*/ uint32 d3;
-    /*0x24*/ Reference evt;
+    /*0x24*/ Reference event;
     /*0x2C*/ Reference unk4[11]; // Seems to be transformation data
-    /*0x84*/ Reference bnds;
+    /*0x84*/ Reference bounds;
 };
 
 }}}
