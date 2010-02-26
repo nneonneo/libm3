@@ -57,11 +57,11 @@ The data types used in the references are documented here.
 || LITE || _Lights?_ ||
 || PAR  || _?_ ||
 || PARC || _?_ ||
-|| PHRB || _?_ ||
+|| PHRB || _Ribbons?_ ||
 || ATVL || _?_ ||
 || BBSC || _?_ ||
 || FLAG || _uint16, uint16?_ ||
-|| PHSH || _?_ ||
+|| PHSH || _Referenced by PHRB_ ||
 || PROJ || _?_ ||
 || CMP  || _?_ || 2 ||
 || CMS  || _?_ || 0 ||
