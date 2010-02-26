@@ -2,7 +2,10 @@
 
 = Introduction =
 
-References sequence data.
+These blocks works like some sort of headers for sequences, referencing [SD] blocks and some other stuff.
+
+Seems there can be more than one [STC] block per sequence if there are several versions of an animation sequence.
+Example: Cover Full, Cover Shield
 
 
 = Details =
