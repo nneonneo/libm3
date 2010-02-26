@@ -1,0 +1,22 @@
+#summary DIV defs
+
+= Introduction =
+
+Geosets (divisions/parts) of the model.
+
+
+= Details =
+
+{{{
+
+// Size = 32 byte / 0x20 byte
+// Incomplete
+struct DIV
+{
+    /*0x00*/ Reference triangles;
+    /*0x08*/ Reference REGN;
+    /*0x10*/ Reference BAT;
+    /*0x18*/ Reference MSEC;
+};
+
+}}}
