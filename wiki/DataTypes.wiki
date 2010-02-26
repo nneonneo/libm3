@@ -40,7 +40,7 @@ The data types used in the references are documented here.
 || [SD SDFG] || _Sequence data - FLAG_ ||
 || [SD SDS6] || _Sequence data - I16_ ||
 || [CAM]  || _Camera_ ||
-|| [DIV]  || _?_ || 2 ||
+|| [DIV]  || _Geoset_ || 2 ||
 
 ===Unknown===
 || [STC]  || _Sequence stuff_ || 4 ||
