@@ -1,0 +1,22 @@
+#summary EVNT defs
+
+= Introduction =
+
+Event definitions as defined in the .m3 files. It contains something that looks like a matrix, though I am not sure what it is used for.
+
+
+= Details =
+
+{{{
+
+// Size = 96 byte/ 0x60 byte
+// Incomplete
+struct EVNT
+{
+    /*0x00*/ Reference name;
+    /*0x08*/ int16 unk1[4];
+    /*0x10*/ float matrix[4][4];
+    /*0x50*/ int32 unk2[4];
+};
+
+}}}
