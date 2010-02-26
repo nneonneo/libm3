@@ -1,0 +1,20 @@
+#summary STG defs
+
+= Introduction =
+
+The number of [STG] blocks in a .m3 file equals the number of [SEQS] blocks, and tells where in the [STC] list the animations of the corresponding SEQS block starts.
+
+
+= Details =
+
+{{{
+
+// Size = 16 byte / 0x10 byte
+// Complete
+struct STG
+{
+    /*0x00*/ Reference name;
+    /*0x08*/ Reference stcID;
+};
+
+}}}
