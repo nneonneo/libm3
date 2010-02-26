@@ -44,7 +44,7 @@ The data types used in the references are documented here.
 
 ===Unknown===
 || [STC]  || _Sequence stuff_ || 4 ||
-|| STG  || _?_ || 0 ||
+|| [STG]  || _?_ || 0 ||
 || STS  || _?_ ||
 || MSEC || _floats?_ || 1 ||
 || REGN || _floats?_ || 2 ||
