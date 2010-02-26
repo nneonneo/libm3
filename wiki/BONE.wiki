@@ -1,0 +1,18 @@
+#summary BONE defs
+
+= Introduction =
+
+The bones as defined in the .m3 files.
+
+
+= Details =
+
+// Size = 156 byte / 0x9C byte
+// Incomplete
+struct BONE
+{
+    /*0x00*/ int32 d1; // Keybone?
+    /*0x04*/ Reference name;
+    /*0x0C*/ uint32 flags;
+    /*0x10*/ int16 parent;
+};
