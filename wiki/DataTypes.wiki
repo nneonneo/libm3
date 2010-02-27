@@ -26,7 +26,7 @@ The data types used in the references are documented here.
 || [VEC3] || _Vec3D_ || 0 ||
 || [VEC4] || _Vec4D_ ||
 || [QUAT] || _Quaternion_ ||
-|| [BONE] || _Bone_ || 1 ||
+|| [BONE] || _Bone_ || 0, 1 ||
 || [ATT]  || _Attachment_ ||
 || [MAT]  || _Material_ || 15 ||
 || [LAYR] || _Texture_ || 20 ||
