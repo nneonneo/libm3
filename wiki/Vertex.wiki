@@ -20,6 +20,6 @@ struct Vertex
     uint32 d2;
 };
 
-Source: http://madx.dk/wowdev/wiki/index.php?title=M3
-
 }}}
+
+Source: http://madx.dk/wowdev/wiki/index.php?title=M3
