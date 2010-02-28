@@ -1,0 +1,25 @@
+#summary Vertex defs
+
+= Introduction =
+
+In the .m3 files, the vertex data seems to be contained within a uint8 block.
+
+
+= Details =
+
+{{{
+
+struct Vertex
+{
+    Vec3D pos;
+    char boneWeight[4];
+    char boneIndex[4];
+    char normal[4];  //normal_x = (float)normal[0]/255.0f...
+    uint16 uv[2];
+    uint32 d1;
+    uint32 d2;
+};
+
+Source: http://madx.dk/wowdev/wiki/index.php?title=M3
+
+}}}
