@@ -4,22 +4,39 @@
 
 In the .m3 files, the vertex data seems to be contained within a uint8 block.
 
+MODL-> flags defines some vertex stuff:
+
+0x20000 = has vertices
+0x40000 = has an extra 4-byte field
+
+When reading the uv values, it's important to note the following:
+value < 2048 - divide the value by 2047
+value > 2048 - divide the value by 65535
+
 
 = Details =
 
 {{{
 
-struct Vertex
+struct Vertex1 // 36 byte
 {
     Vec3D pos;
     char boneWeight[4];
     char boneIndex[4];
-    char normal[4];  //normal_x = (float)normal[0]/255.0f...
+    char normal[4];  // x, y, z, w (w is the scale)
     uint16 uv[2];
     uint32 d1;
-    uint32 d2;
+    char tangents[4];
+};
+
+struct Vertex2 // 32 byte
+{
+    Vec3D pos;
+    char boneWeight[4];
+    char boneIndex[4];
+    char normal[4];  // x, y, z, w (w is the scale)
+    uint16 uv[2];
+    char tangents[4];
 };
 
 }}}
-
-Source: http://madx.dk/wowdev/wiki/index.php?title=M3
