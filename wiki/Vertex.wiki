@@ -5,13 +5,12 @@
 In the .m3 files, the vertex data seems to be contained within a uint8 block.
 
 MODL-> flags defines some vertex stuff:
-
-0x20000 = has vertices
-0x40000 = has an extra 4-byte field
+  * 0x20000 = has vertices
+  * 0x40000 = has an extra 4-byte field
 
 When reading the uv values, it's important to note the following:
-value < 2048 - divide the value by 2047
-value > 2048 - divide the value by 65535
+  * value < 2048 - divide the value by 2047
+  * value > 2048 - divide the value by 65535
 
 
 = Details =
