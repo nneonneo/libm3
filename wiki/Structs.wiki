@@ -24,7 +24,17 @@ struct ReferenceEntry
     /*0x04*/ uint32 offset; 
     /*0x08*/ uint32 nEntries; 
     /*0x0C*/ uint32 d1; // Possibly nReferences;
-}; 
+};
+
+// Size = 8 Byte / 0x08 byte
+// Incomplete
+struct AnimationReference
+{
+    /*0x00*/ uint16 flags; //usually 1
+    /*0x02*/ uint16 animflag; //6 indicates animation data present
+    /*0x04*/ uint32 animid; //a unique uint32 value referenced in STC.animid and STS.animid
+};
+
 // Size = 20 byte / 0x14 byte
 // Complete
 struct MD33
@@ -41,8 +51,41 @@ struct BONE
 {
     /*0x00*/ int32 d1; // Keybone?
     /*0x04*/ Reference name;
-    /*0x0C*/ uint32 flags;
+    /*0x0C*/ uint32 flags; //2560 = Weighted vertices rendered, 512 = not rendered
     /*0x10*/ int16 parent;
+    /*0x12*/ uint16 s1;
+    /*0x14*/ AnimationReference transid; //unique animation ID ref
+    /*0x1C*/ VEC3 pos; //bone position is relative to parent bone and its rotation
+    /*0x28*/ int32 d2[4];
+    /*0x38*/ AnimationReference rotid;
+    /*0x40*/ QUAT rot; //initial bone rotation
+    /*0x50*/ int32 d3[3];
+    /*0x5C*/ float f1;
+    /*0x60*/ int32 d4;
+    /*0x64*/ AnimationReference scaleid;
+    /*0x6C*/ VEC3 scale; //initial scale
+    /*0x78*/ VEC3 v1;
+    /*0x84*/ int32 d5[6];
+    //appears to have another animation ref at 0x8C but not sure what for
+};
+
+// Size = 14 byte / 0x0E byte
+// Incomplete
+struct BAT
+{
+    /*0x00*/ uint32 d1;
+    /*0x04*/ uint16 subid; //REGN index
+    /*0x06*/ uint16 s1[2];
+    /*0x0A*/ uint16 matid; //MATM index (MATM is a material lookup table)
+    /*0x0C*/ int16 s2; //usually -1
+};
+
+// Size = 8 byte / 0x08 byte
+// Complete
+struct MATM
+{
+    /*0x00*/ uint32 nmat; //usually only 1
+    /*0x04*/ uint32 matind; //MAT index
 };
 
 // Size = 32 byte / 0x20 byte
@@ -118,20 +161,31 @@ struct SEQS
     /*0x54*/ int32 d6;
 };
 
+// Size = 4 byte / 0x04 byte
+// Incomplete
+struct AnimationIndex
+{
+    /*0x00*/ uint16 ind;
+    /*0x02*/ uint16 flags;
+};
+
 // Size = 140 byte / 0x8C byte
 // Incomplete
 struct STC
 {
     /*0x00*/ Reference name;
-    /*0x08*/ uint16 s1;
-    /*0x0A*/ uint16 s2;
-    /*0x0C*/ uint16 s3;
-    /*0x0E*/ uint16 s4;
-    /*0x12*/ Reference unk2; // uint32
-    /*0x1A*/ Reference unk3; // uint32
-    /*0x22*/ uint32 d3;
-    /*0x24*/ Reference evt;
-    /*0x2C*/ Reference unk4[11]; // Seems to be transformation data
+    /*0x08*/ uint32 d1;
+    /*0x0C*/ uint16 indSEQ[2]; //points to animation in SEQS chunk, twice for some reason
+    /*0x10*/ Reference animid; //list of unique uint32s used in chunks with animation. The index of these correspond with the data in the next reference.
+    /*0x18*/ Reference animindex; //lookup table, connects animid with it's animation data, nEntries of AnimationIndex reference using U32_ id
+    /*0x20*/ uint32 d2;
+    /*0x24*/ Reference events; 
+    /*0x2C*/ uint32 d3[2];
+    /*0x34*/ Reference trans; //trans animation data, SD3V
+    /*0x3C*/ Reference rot; //rotation animation data, QUAT
+    /*0x44*/ uint32 d4[2];
+    /*0x4C*/ Reference scale; //scale animation data, SDR3 - has an odd scale, divided by 15?
+    /*0x54*/ uint32 d5[12];
     /*0x84*/ Reference bnds;
 };
 
@@ -139,7 +193,7 @@ struct STC
 // Incomplete
 struct STS
 {
-    /*0x00*/ Reference unk1; // uint32
+    /*0x00*/ Reference animid; // uint32
     /*0x08*/ int32 unk[3];
     /*0x14*/ int16 s1;
     /*0x16*/ int16 s2;
