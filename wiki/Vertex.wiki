@@ -21,7 +21,7 @@ struct Vertex1 // 36 byte
 {
     Vec3D pos;
     char boneWeight[4];
-    char boneIndex[4];
+    char boneIndex[4]; //index in boneList of MODL
     char normal[4];  // x, y, z, w (w is the scale)
     uint16 uv[2];
     uint32 d1;
@@ -32,7 +32,7 @@ struct Vertex2 // 32 byte
 {
     Vec3D pos;
     char boneWeight[4];
-    char boneIndex[4];
+    char boneIndex[4]; //index in boneList of MODL
     char normal[4];  // x, y, z, w (w is the scale)
     uint16 uv[2];
     char tangents[4];
