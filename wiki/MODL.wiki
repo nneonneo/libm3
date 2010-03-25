@@ -27,7 +27,7 @@ struct MODL23
     /*0x44*/ uint32 flags;
     /*0x48*/ Reference vertexData; // uint8
     /*0x50*/ Reference views;
-    /*0x58*/ Reference boneList; // uint16, vertices reference this bone list, which references the bones described above
+    /*0x58*/ Reference bonelookup; // uint16, vertices reference this bonelookup
 
     /*0x60*/ Vec3D extents[2];
     /*0x78*/ float radius;
@@ -115,7 +115,7 @@ struct MODL20
     /*0x44*/ uint32 flags;
     /*0x48*/ Reference vertexData; // uint8
     /*0x50*/ Reference views;
-    /*0x58*/ Reference boneList; // uint16
+    /*0x58*/ Reference bonelookup; // uint16, vertices reference this bonelookup
 
     /*0x60*/ Vec3D extents[2];
     /*0x78*/ float radius;
