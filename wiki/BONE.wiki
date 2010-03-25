@@ -15,8 +15,35 @@ struct BONE
 {
     /*0x00*/ int32 d1; // Keybone?
     /*0x04*/ Reference name;
-    /*0x0C*/ uint32 flags;
+    /*0x0C*/ uint32 flags; //2560 = Weighted vertices rendered, 512 = not rendered
     /*0x10*/ int16 parent;
+    /*0x12*/ uint16 s1;
+    /*0x14*/ AnimationReference transid; //unique animation ID ref
+    /*0x1C*/ VEC3 pos; //bone position is relative to parent bone and its rotation
+    /*0x28*/ int32 d2[4];
+    /*0x38*/ AnimationReference rotid;
+    /*0x40*/ QUAT rot; //initial bone rotation
+    /*0x50*/ int32 d3[3];
+    /*0x5C*/ float f1;
+    /*0x60*/ int32 d4;
+    /*0x64*/ AnimationReference scaleid;
+    /*0x6C*/ VEC3 scale; //initial scale
+    /*0x78*/ VEC3 v1;
+    /*0x84*/ int32 d5[6]; //appears to have another unknown animation ref at 0x8C
 };
 
 }}}
+
+= Extra Bone Information =
+
+== Bone Configuration ==
+The initial position, rotation and scale values are in relation to the parent bone if the bone has one. This is different to WoW's M2 model format which had pivot points for their bones in absolute coordinates and no initial rotation or scale values. These bones would be positioned within the initial bindpose of the mesh. Bone animation would then deform the mesh accordingly.
+
+For M3's, the initial bone configuration is setup which does not fit properly into the initial mesh created from the geometry data. My guess is that weighting of the vertices causes the vertice data to interpolate to the bones position after the bones have been setup. How this is done when vertices are weighted to multiple bones I'm not sure (a point between the bones involved?) but this is my best guess for now as to how the mesh binds to the initial bone configuration.
+
+== Animation References ==
+M3's use an odd system for referencing their animation data. There is a global list of all animation data represented in the `MODL.STC` structures for each animation sequence. AnimationReferences found in bones contain animflags of 6 when they contain data for at least one of the animations. Regardless of whether they contain data, they will always have a unique uint32 ID which I suppose is randomly generated. These ID's are referenced in `MODL.STC.animid` list if there is animation data present for that particular animation type in that particular animation sequence, if they are not referenced it indicates there is null animation data for that animation type.
+
+In order to gather the correct animation data from the reference, you must iterate through the `STC.animid` list of uint32 ID's and find the matching ID in the list. Once you find that index, you check the same index in the next section of `STC.animindex` which provides the sequence data index. Now depending on what animation data you've come to find (translation, rotation, scale, etc.) the index will reference that particular sequence data.
+
+For example, if you're trying to find rotation data in a bone, you grab the rotid.animid from the bone. You go to the animation sequence data you want to animate this bone with, say `MODL.STC[2]`, iterate through `MODL.STC[2].animid` until you find the animid in the list and record its index as 6. You go to `MODL.STC[2].animind[6]` and record the `MODL.STC[2].animind[6].ind` as 8. Because this is rotation animation data, you'll then read in the animation data found in the SD def `MODL.STC[2].rot[8]` and animate the bone accordingly. I hope this clarifies how animation data is referenced in the M3 file format.
