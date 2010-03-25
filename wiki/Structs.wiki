@@ -95,7 +95,7 @@ struct MAT
     Reference name;
     int ukn1[8];
     float x, y;
-    Reference layers[13];
+    Reference layers[13];//0 - Diffuse, 1 - Decal, 2 - Specular, 3 - Emissive, 9 - Normal
     int ukn2[15];
 };
 
