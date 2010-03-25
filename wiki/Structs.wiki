@@ -88,6 +88,26 @@ struct MATM
     /*0x04*/ uint32 matind; //MAT index
 };
 
+// Size = 212 bytes / 0xD4 bytes
+// Incomplete
+struct MAT
+{
+    Reference name;
+    int ukn1[8];
+    float x, y;
+    Reference layers[13];
+    int ukn2[15];
+};
+
+// Size = 352 bytes / 0x160 bytes
+// Incomplete
+struct LAYR
+{
+    int unk;
+    Reference name;
+    float unk2[85];
+};
+
 // Size = 32 byte / 0x20 byte
 // Incomplete
 struct DIV
