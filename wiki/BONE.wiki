@@ -29,7 +29,7 @@ struct BONE
     /*0x64*/ AnimationReference scaleid;
     /*0x6C*/ VEC3 scale; //initial scale
     /*0x78*/ VEC3 v1;
-    /*0x84*/ int32 d5[6]; //appears to have another unknown animation ref at 0x8C
+    /*0x84*/ int32 d5[6]; //appears to have another unknown animation ref at 0x84
 };
 
 }}}
