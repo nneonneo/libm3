@@ -185,8 +185,8 @@ struct SEQS
 // Incomplete
 struct AnimationIndex
 {
-    /*0x00*/ uint16 ind;
-    /*0x02*/ uint16 flags;
+    /*0x00*/ uint16 aind; //anim ind in seq data
+    /*0x02*/ uint16 sdind; //seq data array index
 };
 
 // Size = 140 byte / 0x8C byte
@@ -199,14 +199,7 @@ struct STC
     /*0x10*/ Reference animid; //list of unique uint32s used in chunks with animation. The index of these correspond with the data in the next reference.
     /*0x18*/ Reference animindex; //lookup table, connects animid with it's animation data, nEntries of AnimationIndex reference using U32_ id
     /*0x20*/ uint32 d2;
-    /*0x24*/ Reference events; 
-    /*0x2C*/ uint32 d3[2];
-    /*0x34*/ Reference trans; //trans animation data, SD3V
-    /*0x3C*/ Reference rot; //rotation animation data, QUAT
-    /*0x44*/ uint32 d4[2];
-    /*0x4C*/ Reference scale; //scale animation data, SDR3 - has an odd scale, divided by 15?
-    /*0x54*/ uint32 d5[12];
-    /*0x84*/ Reference bnds;
+    /*0x24*/ Reference SeqData[13]; //SD3V - Trans, SD4Q - Rotation, SDR3 - Scale?, SDFG - Flags, SDMB - Bounding Boxes?
 };
 
 // Size = 24 byte / 0x18 byte
