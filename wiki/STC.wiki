@@ -10,7 +10,7 @@ Example: Cover Full, Cover Shield
 Bones reference the sequence data located in these structs for animation.
 
 = Details =
-
+{{{
 // Size = 140 byte / 0x8C byte
 // Incomplete
 struct STC
