@@ -5,8 +5,9 @@
 References sequence data.
 
 
-= Details =
+= SD Header =
 
+== SD ==
 {{{
 
 // Size = 24 byte / 0x18 byte
@@ -19,4 +20,84 @@ struct SD
     /*0x08*/ Reference data;
 };
 
+}}}
+
+= SD Types =
+Known Sequence Data types:
+|| *SD ID* || *Index* || * Type * || * Data ID * || * Found In * || * Description * ||
+|| SDEV || 0 || _Event_ || [SD#EVNT EVNT] || Unknown || Event Animation? ||
+|| SD2V || 1 || _Vector 2D_ || [SD#VEC2 VEC2] || [PAR] || Unknown ||
+|| SD3V || 2 || _Vector 3D_ || [SD#VEC3 VEC3] || [BONE] || Translation ||
+|| SD4Q || 3 || _Quaternion_ || [SD#QUAT QUAT] || [BONE] || Rotation ||
+|| SDR3 || 5 || _Float_ || [SD#REAL REAL] || [BONE] || Scale? ||
+|| SDS6 || 7 || _int16_ || I16 || Unknown || Unknown ||
+|| SDFG || 11 || _int32_ || [SD#FLAG FLAG] || Unknown || Unknown ||
+|| SDMB || 12 || _Extent_ || [SD#BNDS BNDS] || [DIV#MSEC MSEC] || Bounding Box ||
+
+== EVNT ==
+{{{
+
+// Size = 96 byte / 0x60 byte
+// Incomplete
+struct EVNT
+{
+    /*0x00*/ Reference name;
+    /*0x08*/ int32 d1; //usually -1
+    /*0x0C*/ int16 s1[2];
+    /*0x10*/ float matrix[4][4];
+    /*0x50*/ int32 d2[4];
+};
+
+}}}
+
+== VEC2 ==
+{{{
+struct VEC2
+{
+    float x, y;
+};
+}}}
+
+== VEC3 ==
+{{{
+struct VEC3
+{
+    float x, y, z;
+};
+}}}
+
+== QUAT ==
+{{{
+struct QUAT
+{
+    float x, y, z, w;
+};
+}}}
+
+== REAL ==
+{{{
+struct REAL
+{
+    float f1;
+};
+}}}
+
+== FLAG ==
+{{{
+struct FLAG
+{
+    ulong flg;
+};
+}}}
+
+== BNDS ==
+{{{
+// Size = 28 byte / 0x1C byte
+// Complete
+struct BNDS
+{
+    /*0x00*/ VEC3 min;
+    /*0x0C*/ VEC3 max;
+    /*0x18*/ float radius;
+}
 }}}
