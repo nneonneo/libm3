@@ -2,22 +2,30 @@
 
 = Introduction =
 
-These blocks works like some sort of headers for sequences, referencing [SD] blocks and some other stuff.
+These blocks works like some sort of headers for sequences, referencing [SD Sequence Data] blocks and some other stuff.
 
-Seems there can be more than one [STC] block per sequence if there are several versions of an animation sequence.
+Seems there can be more than one [STC] block per sequence if there are several versions of an animation sequence. [STG] represents an [STC] lookup table for each [SEQS] entry.
 Example: Cover Full, Cover Shield
 
-Bones reference the sequence data located in these structs for animation.
+Bones, among other structures, reference the [SD Sequence Data] located in these structs for animation.
 
 = Details =
 {{{
+// Size = 4 byte / 0x04 byte
+// Incomplete
+struct AnimationIndex
+{
+    /*0x00*/ uint16 aind; //anim ind in seq data
+    /*0x02*/ uint16 sdind; //seq data array index
+};
+
 // Size = 140 byte / 0x8C byte
 // Incomplete
 struct STC
 {
     /*0x00*/ Reference name;
     /*0x08*/ uint32 d1;
-    /*0x0C*/ uint16 indSEQ[2]; //points to animation in SEQS chunk, twice for some reason
+    /*0x0C*/ uint16 indSEQ[2]; //two points to the sequence in SEQS chunk, possibly one for SEQS and one for STG
     /*0x10*/ Reference animid; //list of unique uint32s used in chunks with animation. The index of these correspond with the data in the next reference.
     /*0x18*/ Reference animindex; //lookup table, connects animid with it's animation data, nEntries of AnimationIndex reference using U32_ id
     /*0x20*/ uint32 d2;
@@ -25,3 +33,15 @@ struct STC
 };
 
 }}}
+
+= SD Types =
+Known Sequence Data types:
+|| *SD ID* || *Index* || * Type * || * Data ID * || * Found In * || * Description * ||
+|| SDEV || 0 || _Event_ || [SD#EVNT EVNT] || Unknown || Event Animation? ||
+|| SD2V || 1 || _Vector 2D_ || [SD#VEC2 VEC2] || [PAR] || Unknown ||
+|| SD3V || 2 || _Vector 3D_ || [SD#VEC3 VEC3] || [BONE] || Translation ||
+|| SD4Q || 3 || _Quaternion_ || [SD#QUAT QUAT] || [BONE] || Rotation ||
+|| SDR3 || 5 || _Float_ || [SD#REAL REAL] || [BONE] || Scale? ||
+|| SDS6 || 7 || _int16_ || I16 || Unknown || Unknown ||
+|| SDFG || 11 || _int32_ || [SD#FLAG FLAG] || [RIB] || Flags? ||
+|| SDMB || 12 || _Extent_ || [SD#BNDS BNDS] || [DIV#MSEC MSEC] || Bounding Box ||
