@@ -8,10 +8,7 @@ MODL-> flags defines some vertex stuff:
   * 0x20000 = has vertices
   * 0x40000 = has an extra 4-byte field
 
-When reading the uv values, it's important to note the following:
-  * value < 2048 - divide the value by 2047
-  * value > 2048 - divide the value by 65535
-
+Each UV texture coordinate must be divided by 2046.0 to get its true float value. In 3ds max, the Y-UV coord must be flipped (1 - UV.y) for textures to be displayed on the mesh properly.
 
 = Details =
 
@@ -21,7 +18,7 @@ struct Vertex1 // 36 byte
 {
     Vec3D pos;
     char boneWeight[4];
-    char boneIndex[4]; //index in boneList of MODL
+    char boneIndex[4]; //index in boneLookup of vertex submesh
     char normal[4];  // x, y, z, w (w is the scale)
     uint16 uv[2];
     uint32 d1;
@@ -32,10 +29,27 @@ struct Vertex2 // 32 byte
 {
     Vec3D pos;
     char boneWeight[4];
-    char boneIndex[4]; //index in boneList of MODL
+    char boneIndex[4]; //index in boneLookup of vertex submesh
     char normal[4];  // x, y, z, w (w is the scale)
     uint16 uv[2];
     char tangents[4];
 };
 
 }}}
+
+= Extra Information =
+== Vertex Weighting ==
+Each vertex boneIndex is not an index into the global bone entries found in [MODL] but rather a reference into the bonelookup. However, it's not just an index into the bonelookup entries either. In order to find the correct bone to weight the vertice to, the boneIndex value uses submesh information found in the [DIV#REGN REGN] indBone value to grab the right bone in the bonelookup entries. So in order to calculate the correct boneIndex: 
+ # Find which REGN entry the vertex belongs to
+ # Add the REGN.indBone to the vertex.boneIndex value
+ # Grab the bonelookup value your new index points to
+ # Get the bone the bonelookup value refers to
+
+== Vertex Skinning ==
+Vertices need to be skinned onto the bones in order to deform the mesh through bone animation. The IREF entries, which have the same nEntries as bones, are used as an initial reference for moving the vertices according to what bone the vertice is weighted to. The vertex position is then moved by bone scale, rotation and position into its final bindpose position. In order to skin the vertices properly, you'll have to first arrange the bones into their bindpose positions through building the bone chain and the bone chunk scale/rotation/translation data. Then follow these steps for each weight attributed to the vertice:
+ # Multiply the original vertice position by the IREF matrix entry of the weighted bone
+ # Multiply the new position by the scale and rotation of the bone in bindpose (*Note:* need to use the inverse rotation in 3ds max due to how max stores matrix rotations)
+ # Add the new position to the bone position
+ # Multiply this position by the weight factor
+ # For vertices with multiple weights, you must then add all the calculated positions together
+These steps will give you the final vertex position for the models bindpose.
