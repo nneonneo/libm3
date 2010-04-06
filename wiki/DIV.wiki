@@ -7,6 +7,7 @@ Geosets (divisions/parts) of the model.
 
 = Details =
 
+== DIV ==
 {{{
 
 // Size = 36 byte / 0x24 byte
@@ -19,6 +20,12 @@ struct DIV
     /*0x18*/ Reference MSEC;
     /*0x20*/ uint32 d1; //always 1?
 };
+
+}}}
+
+
+== REGN ==
+{{{
 
 //Size = 28 byte / 0x1C byte
 // Incomplete
@@ -35,6 +42,11 @@ struct REGN
     /*0x16*/ uint16 s1[3]; //flags? vital for sc2 engine rendering the geometry
 };
 
+}}}
+
+== BAT ==
+{{{
+
 // Size = 14 byte / 0x0E byte
 // Incomplete
 struct BAT
@@ -45,6 +57,12 @@ struct BAT
     /*0x0A*/ uint16 matid; //MATM index (MATM = material lookup table)
     /*0x0C*/ int16 s2; //usually -1
 };
+
+}}}
+
+== MSEC ==
+
+{{{
 
 // Size = 72 byte / 0x48 byte
 // Incomplete
