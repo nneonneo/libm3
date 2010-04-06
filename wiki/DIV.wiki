@@ -9,7 +9,7 @@ Geosets (divisions/parts) of the model.
 
 {{{
 
-// Size = 32 byte / 0x20 byte
+// Size = 36 byte / 0x24 byte
 // Incomplete
 struct DIV
 {
@@ -17,6 +17,43 @@ struct DIV
     /*0x08*/ Reference REGN;
     /*0x10*/ Reference BAT;
     /*0x18*/ Reference MSEC;
+    /*0x20*/ uint32 d1; //always 1?
+};
+
+//Size = 28 byte / 0x1C byte
+// Incomplete
+struct REGN
+{
+    /*0x00*/ uint32 d1; //always 0?
+    /*0x04*/ uint16 indVert;
+    /*0x06*/ uint16 numVert;
+    /*0x08*/ uint32 indFaces;
+    /*0x0C*/ uint32 numFaces;
+    /*0x10*/ uint16 boneCount; //boneLookup total count (redundant?)
+    /*0x12*/ uint16 indBone; //indice into boneLookup
+    /*0x14*/ uint16 numBone; //number of bones used from boneLookup
+    /*0x16*/ uint16 s1[3]; //flags? vital for sc2 engine rendering the geometry
+};
+
+// Size = 14 byte / 0x0E byte
+// Incomplete
+struct BAT
+{
+    /*0x00*/ uint32 d1; //always 0?
+    /*0x04*/ uint16 subid; //REGN index
+    /*0x06*/ uint16 s1[2];
+    /*0x0A*/ uint16 matid; //MATM index (MATM = material lookup table)
+    /*0x0C*/ int16 s2; //usually -1
+};
+
+// Size = 72 byte / 0x48 byte
+// Incomplete
+struct MSEC
+{
+    /*0x00*/ uint32 d1; //always 0?
+    /*0x04*/ Animref bounds; //Bounding box animation ref in STC
+    /*0x0C*/ extent ext1; //Some kind of mesh extent?
+    /*0x28*/ uint32 d2[8];
 };
 
 }}}
