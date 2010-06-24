@@ -41,7 +41,7 @@ Known Sequence Data types:
 || SD2V || 1 || _Vector 2D_ || [SD#VEC2 VEC2] || [PAR] || Unknown ||
 || SD3V || 2 || _Vector 3D_ || [SD#VEC3 VEC3] || [BONE] || Translation/Scale ||
 || SD4Q || 3 || _Quaternion_ || [SD#QUAT QUAT] || [BONE] || Rotation ||
-|| SDR3 || 5 || _Float_ || [SD#REAL REAL] || [MSEC] || Unknown ||
+|| SDR3 || 5 || _Float_ || [SD#REAL REAL] || [PAR] || Unknown ||
 || SDS6 || 7 || _int16_ || I16 || Unknown || Unknown ||
 || SDFG || 11 || _int32_ || [SD#FLAG FLAG] || [RIB] || Flags? ||
 || SDMB || 12 || _Extent_ || [SD#BNDS BNDS] || [DIV#MSEC MSEC] || Bounding Box ||
