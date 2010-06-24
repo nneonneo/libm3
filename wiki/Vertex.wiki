@@ -6,7 +6,9 @@ In the .m3 files, the vertex data seems to be contained within a uint8 block.
 
 MODL-> flags defines some vertex stuff:
   * 0x20000 = has vertices
-  * 0x40000 = has an extra 4-byte field
+  * 0x40000 = has 1 extra UV coords
+  * 0x80000 = has 2 extra UV coords
+  * 0x100000 = has 3 extra UV coords
 
 Each UV texture coordinate must be divided by 2046.0 to get its true float value. In 3ds max, the Y-UV coord must be flipped (1 - UV.y) for textures to be displayed on the mesh properly.
 
@@ -14,24 +16,49 @@ Each UV texture coordinate must be divided by 2046.0 to get its true float value
 
 {{{
 
-struct Vertex1 // 36 byte
+struct Vertex32 // 32 byte
 {
     Vec3D pos;
     char boneWeight[4];
     char boneIndex[4]; //index in boneLookup of vertex submesh
     char normal[4];  // x, y, z, w (w is the scale)
     uint16 uv[2];
-    uint32 d1;
     char tangents[4];
 };
 
-struct Vertex2 // 32 byte
+struct Vertex36 // 36 byte
 {
     Vec3D pos;
     char boneWeight[4];
     char boneIndex[4]; //index in boneLookup of vertex submesh
     char normal[4];  // x, y, z, w (w is the scale)
-    uint16 uv[2];
+    uint16 uv1[2];
+    uint16 uv2[2];
+    char tangents[4];
+};
+
+struct Vertex40 // 40 byte
+{
+    Vec3D pos;
+    char boneWeight[4];
+    char boneIndex[4]; //index in boneLookup of vertex submesh
+    char normal[4];  // x, y, z, w (w is the scale)
+    uint16 uv1[2];
+    uint16 uv2[2];
+    uint16 uv3[2];
+    char tangents[4];
+};
+
+struct Vertex44 // 44 byte
+{
+    Vec3D pos;
+    char boneWeight[4];
+    char boneIndex[4]; //index in boneLookup of vertex submesh
+    char normal[4];  // x, y, z, w (w is the scale)
+    uint16 uv1[2];
+    uint16 uv2[2];
+    uint16 uv3[2];
+    uint16 uv4[2];
     char tangents[4];
 };
 
@@ -44,12 +71,3 @@ Each vertex boneIndex is not an index into the global bone entries found in [MOD
  # Add the REGN.indBone to the vertex.boneIndex value
  # Grab the bonelookup value your new index points to
  # Get the bone the bonelookup value refers to
-
-== Vertex Skinning ==
-Vertices need to be skinned onto the bones in order to deform the mesh through bone animation. The IREF entries, which have the same nEntries as bones, are used as an initial reference for moving the vertices according to what bone the vertice is weighted to. The vertex position is then moved by bone scale, rotation and position into its final bindpose position. In order to skin the vertices properly, you'll have to first arrange the bones into their bindpose positions through building the bone chain and the bone chunk scale/rotation/translation data. Then follow these steps for each weight attributed to the vertice:
- # Multiply the original vertice position by the IREF matrix entry of the weighted bone
- # Multiply the new position by the scale and rotation of the bone in bindpose (*Note:* need to use the inverse rotation in 3ds max due to how max stores matrix rotations)
- # Add the new position to the bone position
- # Multiply this position by the weight factor
- # For vertices with multiple weights, you must then add all the calculated positions together
-These steps will give you the final vertex position for the models bindpose.
