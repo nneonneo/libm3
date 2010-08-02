@@ -426,7 +426,7 @@ m_pd3dDevice->SetTransform( D3DTS_WORLD, ident);
 for(unsigned int iSubmesh=0; iSubmesh<nbRegn; iSubmesh++)
 {
    //set the marterial
-   unsigned long MaterialUsed =  matm[ regn[iSubmesh].linkBat->matid  ].MatInd;
+   unsigned long materialUsed =  matm[ regn[iSubmesh].linkBat->matid  ].MatInd;
    if ( matm[ bat[iSubmesh].matid  ].nMat != 1 ) 
    { 
       ERROR_MESSAGE("nb of materials != 1"); 
@@ -435,7 +435,7 @@ for(unsigned int iSubmesh=0; iSubmesh<nbRegn; iSubmesh++)
    //EXtexture is just my texture class. It is nearly the same that a classical LPDIRECT3DTEXTURE9 class.
    //EXtexture* pTexture is a member of the struc LAYR that isn’t in the real file structure. 
    //I add it in my structure in order to save this optimization.
-   EXtexture* textureUsed = ((LAYR*)(material[MaterialUsed].LAYR_Diff.pData))->pTexture;
+   EXtexture* textureUsed = ((LAYR*)(material[materialUsed].LAYR_Diff.pData))->pTexture;
    if ( textureUsed != NULL )
    {
       m_pd3dDevice->SetTexture(0,textureUsed->GetTexture());
@@ -450,7 +450,7 @@ for(unsigned int iSubmesh=0; iSubmesh<nbRegn; iSubmesh++)
    //for each vertex of the current submesh
    for (unsigned int iVertex=regn[iSubmesh].vind;   iVertex< regn[iSubmesh].vind+regn[iSubmesh].vnum;   iVertex++)
    {
-      D3DXVECTOR3 FinalPos = D3DXVECTOR3(0.0f,0.0f,0.0f);
+      D3DXVECTOR3 finalPos = D3DXVECTOR3(0.0f,0.0f,0.0f);
 
       //for each weights
       for(int iWeight=0; iWeight<4; iWeight++)
@@ -468,14 +468,14 @@ for(unsigned int iSubmesh=0; iSubmesh<nbRegn; iSubmesh++)
 				
             vecXquat((D3DXVECTOR3*)(&pos),&m_BoneRotation[BoneIndice]);
 
-            FinalPos += ((D3DXVECTOR3)(pos) + m_BoneTranslation[BoneIndice]) * m_StaticMeshVB[iVertex].weBone[iWeight];
+            finalPos += ((D3DXVECTOR3)(pos) + m_BoneTranslation[BoneIndice]) * m_StaticMeshVB[iVertex].weBone[iWeight];
          }
 
       }
 
-      vg[iVertex].x = FinalPos.x;
-      vg[iVertex].y = FinalPos.y;
-      vg[iVertex].z = FinalPos.z;
+      vg[iVertex].x = finalPos.x;
+      vg[iVertex].y = finalPos.y;
+      vg[iVertex].z = finalPos.z;
    
    }
 
