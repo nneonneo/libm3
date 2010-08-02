@@ -184,7 +184,7 @@ for(unsigned int iVert=0; iVert < m_mdata.mVert.nbElement; iVert++)
    for(unsigned int iWeight = 0; iWeight < 4; iWeight++)
    {
       //if there is a weight
-      if ( m_StaticMeshVB[iVert].weBone[iWeight] > 0 ) 
+      if ( m_StaticMeshVB[iVert].weBone[iWeight] > 0.0f ) 
       { 
          //unsigned short realOwnerBones[4] is a member of the struc Vertex that isn’t in the real file structure. 
          //I add it in my structure in order to save this optimization.
@@ -456,7 +456,7 @@ for(unsigned int iSubmesh=0; iSubmesh<nbRegn; iSubmesh++)
       for(int iWeight=0; iWeight<4; iWeight++)
       {
          //if there is a weight
-         if ( m_StaticMeshVB[iVertex].weBone[iWeight] > 0 ) 
+         if ( m_StaticMeshVB[iVertex].weBone[iWeight] > 0.0f ) 
          { 
             unsigned short boneIndice = m_StaticMeshVB[iVertex].realOwnerBones[iWeight];
 
