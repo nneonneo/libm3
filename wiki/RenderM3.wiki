@@ -4,7 +4,7 @@
 
 This article has been started by [http://www.richard-geslot.com Richard Geslot]. It’s based on the Wiki of [http://code.google.com/u/dot.qwerty/ dot.qwerty] and the 010 editor template & the 3DSmax importer of [http://code.google.com/u/madyavic/ madyavic].
 
-I won’t write a simple copy-paste of all my code, I prefer to publish the difficult samples of my code and comments them.
+I won’t write a simple copy-paste of all my code, I prefer to publish the difficult samples of my code and comment them.
 All M3 structures variables names are copied from the 010 editor template 0.95 of madyavic.
 
 Prerequisites:
@@ -15,7 +15,7 @@ Prerequisites:
 
 = First: Load the M3 from file =
 
-This section is divided into 2 parts: The Load and the pre-compute.
+This section is divided into 2 parts: The load and the pre-compute.
 
 == Load ==
 
@@ -46,7 +46,7 @@ struct Ref
    HeadRef HRef;
    Tag chunk;
 //for the program (not in the struct file) :
-   unsigned int NbElement;//nb of elements in pData 
+   unsigned int nbElement;//nb of elements in pData 
                    //(HRef.nData already contains this value BUT it's not always true...)
    void* pData;//points to the malloc data reference by this ref struct
 };
@@ -57,7 +57,7 @@ For example, if I want to access to bones data:
 {{{
 //MODL m_mdata is a member of my M3 class
 BONE* bone = (BONE*)(m_mdata.mBone.pData); //the data
-m_mdata.mBone.NbElement; //number of bones
+m_mdata.mBone.nbElement; //number of bones
 }}}
 
 
@@ -67,19 +67,19 @@ here are all shortcuts that I will use along this document :
 {{{
 BONE* bone = (BONE*)(m_mdata.mBone.pData);
 STC_* stc = (STC_*)(m_mdata.mSTC.pData);
-unsigned int NbStc = m_mdata.mSTC.NbElement;
+unsigned int nbStc = m_mdata.mSTC.nbElement;
 DIV_* div = (DIV_*)(m_mdata.mDIV.pData);
 REGN* regn = (REGN*)(div[0].submesh.pData);
-unsigned int NbRegn = div[0].submesh.NbElement;
+unsigned int nbRegn = div[0].submesh.nbElement;
 BAT_* bat = (BAT_*)(div[0].BAT.pData);
 unsigned short* BoneLU = (unsigned short*)(m_mdata.mBoneLU.pData);
-unsigned int NbBoneLU = m_mdata.mBoneLU.NbElement;
+unsigned int nbBoneLU = m_mdata.mBoneLU.nbElement;
 D3DXMATRIXA16* iref = (D3DXMATRIXA16*)(m_mdata.mIREF.pData);
-unsigned int NbIref = m_mdata.mIREF.NbElement;
+unsigned int nbIref = m_mdata.mIREF.nbElement;
 LPDIRECT3DVERTEXBUFFER9 VertexBuffer = (LPDIRECT3DVERTEXBUFFER9)(m_mdata.mVert.pData);
 LPDIRECT3DINDEXBUFFER9 IndexBuffer = (LPDIRECT3DINDEXBUFFER9)(div[0].faces.pData);
-unsigned int NbVertex = m_mdata.mVert.NbElement;
-unsigned int NbIndex = div[0].faces.NbElement;
+unsigned int nbVertex = m_mdata.mVert.nbElement;
+unsigned int nbIndex = div[0].faces.nbElement;
 MATM* matm = (MATM*)(m_mdata.mMatLU.pData);
 MAT_* material = (MAT_*)(m_mdata.mMat.pData);
 }}}
@@ -106,17 +106,17 @@ Ok now the pre-compute (for optimization, check errors…):
 
 //my code is made for element with 1 DIV... for the moment, I have never seen M3 with more than 1 DIV...
 //ERROR_MESSAGE is just a function that display error message.
-if ( m_mdata.mDIV.NbElement != 1 ) { ERROR_MESSAGE("NbElement != 1"); }
+if ( m_mdata.mDIV.nbElement != 1 ) { ERROR_MESSAGE("nbElement != 1"); }
 
 //check that number of submesh = number of BAT
-if ( div[0].submesh.NbElement != div[0].BAT.NbElement ) { ERROR_MESSAGE("submesh.NbElement != BAT.NbElement"); }
+if ( div[0].submesh.nbElement != div[0].BAT.nbElement ) { ERROR_MESSAGE("submesh.nbElement != BAT.nbElement"); }
 
 //for each REGN, find its BAT (avoid to do that at each frame)
-for(unsigned int iRegion=0; iRegion<div[0].submesh.NbElement; iRegion++)
+for(unsigned int iRegion=0; iRegion<div[0].submesh.nbElement; iRegion++)
 {
    regn[iRegion].LinkBat = NULL;
    //for each BAT
-   for(unsigned int iBat=0; iBat<div[0].BAT.NbElement; iBat++)
+   for(unsigned int iBat=0; iBat<div[0].BAT.nbElement; iBat++)
    {
       if ( bat[iBat].subid == iRegion ) 
       {  
@@ -129,16 +129,16 @@ for(unsigned int iRegion=0; iRegion<div[0].submesh.NbElement; iRegion++)
 }
 
 //pre-compute for each bones
-for(unsigned int iBone=0; iBone<m_mdata.mBone.NbElement; iBone++)
+for(unsigned int iBone=0; iBone<m_mdata.mBone.nbElement; iBone++)
 {
 
    //you could see my EXmemory::Malloc() function as a simple malloc()
-   bone[iBone].transid.goodStcAnimid = (unsigned long*)EXmemory::Malloc(NbStc*sizeof(unsigned long));
-   bone[iBone].rotid.goodStcAnimid   = (unsigned long*)EXmemory::Malloc(NbStc*sizeof(unsigned long));
-   bone[iBone].scaleid.goodStcAnimid = (unsigned long*)EXmemory::Malloc(NbStc*sizeof(unsigned long));
+   bone[iBone].transid.goodStcAnimid = (unsigned long*)EXmemory::Malloc(nbStc*sizeof(unsigned long));
+   bone[iBone].rotid.goodStcAnimid   = (unsigned long*)EXmemory::Malloc(nbStc*sizeof(unsigned long));
+   bone[iBone].scaleid.goodStcAnimid = (unsigned long*)EXmemory::Malloc(nbStc*sizeof(unsigned long));
 
    //for each stc
-   for(unsigned int iSTC=0; iSTC<NbStc; iSTC++)
+   for(unsigned int iSTC=0; iSTC<nbStc; iSTC++)
    {
       //not found yet
       bone[iBone].transid.goodStcAnimid[iSTC] = 0xFFffFFff;
@@ -146,10 +146,10 @@ for(unsigned int iBone=0; iBone<m_mdata.mBone.NbElement; iBone++)
       bone[iBone].scaleid.goodStcAnimid[iSTC] = 0xFFffFFff;
 
       unsigned long* animid = (unsigned long*)(stc[iSTC].animid.pData);
-      unsigned int NbAnimid = stc[iSTC].animid.NbElement;
+      unsigned int nbAnimid = stc[iSTC].animid.nbElement;
 
       //for each stc.animid
-      for(unsigned int iAnimid=0; iAnimid<NbAnimid; iAnimid++)
+      for(unsigned int iAnimid=0; iAnimid<nbAnimid; iAnimid++)
       {
          //unsigned long* goodStcAnimid is a member of the struc Animref that isn’t in the real file structure. 
          //I add it in my structure in order to save this optimization.
@@ -163,12 +163,12 @@ for(unsigned int iBone=0; iBone<m_mdata.mBone.NbElement; iBone++)
 
 
 //for each vertex
-for(unsigned int iVert=0; iVert < m_mdata.mVert.NbElement; iVert++)
+for(unsigned int iVert=0; iVert < m_mdata.mVert.nbElement; iVert++)
 {
    unsigned short OwnerRegion = 0xffFF;
 
    //search the good REGN
-   for(unsigned int iRegn=0; iRegn<NbRegn ; iRegn++)
+   for(unsigned int iRegn=0; iRegn<nbRegn ; iRegn++)
    {
       unsigned long minv = regn[iRegn].vind;
       unsigned long maxv = minv + regn[iRegn].vnum;
@@ -191,7 +191,7 @@ for(unsigned int iVert=0; iVert < m_mdata.mVert.NbElement; iVert++)
          m_StaticMeshVB[iVert].realOwnerBones[iWeight] = BoneLU[  m_StaticMeshVB[iVert].weIndice[iWeight] + regn[OwnerRegion].bind  ];
 
          if(m_StaticMeshVB[iVert].realOwnerBones[iWeight] == 0xffFF) { ERROR_MESSAGE("bone not find"); }
-         if ( m_StaticMeshVB[iVert].realOwnerBones[iWeight] >= m_mdata.mIREF.NbElement ) { ERROR_MESSAGE("BoneIndice >= NbIref"); }
+         if ( m_StaticMeshVB[iVert].realOwnerBones[iWeight] >= m_mdata.mIREF.nbElement ) { ERROR_MESSAGE("BoneIndice >= nbIref"); }
 
          //D3DXVECTOR4 posXiref[4] is a member of the struc Vertex that isn’t in the real file structure. 
          //I add it in my structure in order to save this optimization. This save directly the SaticPos * IREF matrix
@@ -223,11 +223,11 @@ D3DXVECTOR3* m_BoneScale;
 We also need these variables:
 
 {{{
-unsigned int CurrentSTC; //it’s just the number of the animation, set it with 0 if you don’t know how many animation the model have.
+unsigned int currentSTC; //it’s just the number of the animation, set it with 0 if you don’t know how many animation the model have.
 
-DWORD TimeOfCurrentAnim;//a timer that will always be between 0 and the lengh of the current animation
+DWORD timeOfCurrentAnim;//a timer that will always be between 0 and the lengh of the current animation
 
-DWORD DeltaTime; //the delta between this time and the time of the last update
+DWORD deltaTime; //the delta between this time and the time of the last update
 }}}
 
 And now, let’s update ! :
@@ -235,13 +235,13 @@ And now, let’s update ! :
 {{{
 //this is how I get the Lengh of the current animation :
 unsigned long CurrentAnimationLength;
-if ( stc[CurrentSTC].Trans.pData != NULL )
+if ( stc[currentSTC].Trans.pData != NULL )
 {
-   CurrentAnimationLength = ((Animblock*)(stc[CurrentSTC].Trans.pData))[0].framelength;
+   CurrentAnimationLength = ((Animblock*)(stc[currentSTC].Trans.pData))[0].framelength;
 }
-else if ( stc[CurrentSTC].Rot.pData != NULL )
+else if ( stc[currentSTC].Rot.pData != NULL )
 {
-   CurrentAnimationLength = ((Animblock*)(stc[CurrentSTC].Rot.pData))[0].framelength;
+   CurrentAnimationLength = ((Animblock*)(stc[currentSTC].Rot.pData))[0].framelength;
 }
 else
 {
@@ -249,22 +249,22 @@ else
 }
 
 //update the time of the current animation
-TimeOfCurrentAnim += DeltaTime;
-if ( TimeOfCurrentAnim >= CurrentAnimationLength ) 
+timeOfCurrentAnim += deltaTime;
+if ( timeOfCurrentAnim >= CurrentAnimationLength ) 
 {
-   TimeOfCurrentAnim = *TimeOfCurrentAnim % CurrentAnimationLength;
+   timeOfCurrentAnim = *timeOfCurrentAnim % CurrentAnimationLength;
 }
 
 
 //and now, set the matrix of each bones
-for(unsigned int iBone=0; iBone<m_mdata.mBone.NbElement; iBone++)
+for(unsigned int iBone=0; iBone<m_mdata.mBone.nbElement; iBone++)
 {
 
    short IndiceBoneParent = bone[iBone].boneparent;
 
-   GetBoneTransform(&BoneTranslation[iBone], &bone[iBone].transid, 1, *TimeOfCurrentAnim,CurrentAnimationLength, &bone[iBone].pos,CurrentSTC);	
-   GetBoneTransform(&BoneRotation[iBone],    &bone[iBone].rotid,   2, *TimeOfCurrentAnim,CurrentAnimationLength, &bone[iBone].rot,CurrentSTC );		
-   GetBoneTransform(&BoneScale[iBone],       &bone[iBone].scaleid, 3, *TimeOfCurrentAnim,CurrentAnimationLength, &bone[iBone].scale,CurrentSTC);
+   GetBoneTransform(&BoneTranslation[iBone], &bone[iBone].transid, 1, *timeOfCurrentAnim,CurrentAnimationLength, &bone[iBone].pos,currentSTC);	
+   GetBoneTransform(&BoneRotation[iBone],    &bone[iBone].rotid,   2, *timeOfCurrentAnim,CurrentAnimationLength, &bone[iBone].rot,currentSTC );		
+   GetBoneTransform(&BoneScale[iBone],       &bone[iBone].scaleid, 3, *timeOfCurrentAnim,CurrentAnimationLength, &bone[iBone].scale,currentSTC);
 
    if ( IndiceBoneParent != -1 )
    {
@@ -296,7 +296,7 @@ void ModelM3::GetBoneTransform(void* outVec,
                                unsigned int CurrentFrame, 
                                unsigned int AnimationLength, 
                                void* ifNoAnim, 
-                               unsigned int CurrentSTC)
+                               unsigned int currentSTC)
 {
    if ( TransformType == 0 || TransformType >= 4 )
    {
@@ -304,13 +304,13 @@ void ModelM3::GetBoneTransform(void* outVec,
    }
 
    STC_* stc = (STC_*)(m_mdata.mSTC.pData);
-   unsigned int NbStc = m_mdata.mSTC.NbElement;
-   if ( CurrentSTC >= NbStc ) { ERROR_MESSAGE("CurrentSTC >= NbStc"); CurrentSTC = 0; }
-   unsigned long* animid = (unsigned long*)(stc[CurrentSTC].animid.pData);
-   AnimationIndex* animoffs = (AnimationIndex*)(stc[CurrentSTC].animoffs.pData);
+   unsigned int nbStc = m_mdata.mSTC.nbElement;
+   if ( currentSTC >= nbStc ) { ERROR_MESSAGE("currentSTC >= nbStc"); currentSTC = 0; }
+   unsigned long* animid = (unsigned long*)(stc[currentSTC].animid.pData);
+   AnimationIndex* animoffs = (AnimationIndex*)(stc[currentSTC].animoffs.pData);
 
    if ( animReference->goodStcAnimid == NULL ) { ERROR_MESSAGE("NULL"); }
-   unsigned long ID = animReference->goodStcAnimid[CurrentSTC];
+   unsigned long ID = animReference->goodStcAnimid[currentSTC];
 	
    if ( ID == 0xFFffFFff ) 
    { 
@@ -327,17 +327,17 @@ void ModelM3::GetBoneTransform(void* outVec,
       if ( TransformType == 1 )//translation
       {
          correctID = 2;
-         refAnimBlock = & stc[CurrentSTC].Trans;
+         refAnimBlock = & stc[currentSTC].Trans;
       }
       else if ( TransformType == 2 )//rotation
       {
          correctID = 3;
-         refAnimBlock = & stc[CurrentSTC].Rot;
+         refAnimBlock = & stc[currentSTC].Rot;
       }
       else if ( TransformType == 3 )//scaling
       {
          correctID = 2;
-         refAnimBlock = & stc[CurrentSTC].Trans;
+         refAnimBlock = & stc[currentSTC].Trans;
       }
       else { ERROR_MESSAGE("TransformType ?"); }
 
@@ -345,7 +345,7 @@ void ModelM3::GetBoneTransform(void* outVec,
       if ( animoffs[ID].sdind != correctID ) { ERROR_MESSAGE_1("%d isn't a good ID",animoffs[ID].sdind); }
 
       //check .aind
-      if ( animoffs[ID].aind >= refAnimBlock->NbElement ) { ERROR_MESSAGE("uncorrect ID"); }
+      if ( animoffs[ID].aind >= refAnimBlock->nbElement ) { ERROR_MESSAGE("uncorrect ID"); }
 
       Animblock animblock = ((Animblock*)(refAnimBlock->pData))[animoffs[ID].aind];
 		
@@ -357,9 +357,9 @@ void ModelM3::GetBoneTransform(void* outVec,
 
       //find the good frame
       unsigned int LowerRefFrame = 0;
-      for(unsigned int i=0;  i<animblock.frames.NbElement;  i++)
+      for(unsigned int i=0;  i<animblock.frames.nbElement;  i++)
       {
-         if ( CurrentFrame < frame[i] || (i == animblock.frames.NbElement-1 && CurrentFrame == frame[i] ) ) 
+         if ( CurrentFrame < frame[i] || (i == animblock.frames.nbElement-1 && CurrentFrame == frame[i] ) ) 
          { 
             LowerRefFrame = i; break; 
          }
@@ -418,7 +418,7 @@ D3DXMatrixIdentity( &ident );
 m_pd3dDevice->SetTransform( D3DTS_WORLD, ident);
 
 //for each submesh
-for(unsigned int iSubmesh=0; iSubmesh<NbRegn; iSubmesh++)
+for(unsigned int iSubmesh=0; iSubmesh<nbRegn; iSubmesh++)
 {
    //set the marterial
    unsigned long MaterialUsed =  matm[ regn[iSubmesh].LinkBat->matid  ].MatInd;
