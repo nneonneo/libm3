@@ -217,7 +217,7 @@ We need these 3 pointers (malloc at the start of the program in function of the 
 D3DXVECTOR3* m_BoneTranslation; 
 D3DXQUATERNION* m_BoneRotation;
 D3DXVECTOR3* m_BoneScale;
-//m_BoneTranslation[x] is the translation of the bone number x
+//for example: m_BoneTranslation[x] is the translation of the bone number x
 }}}
 
 We also need these variables:
@@ -361,19 +361,19 @@ void ModelM3::GetBoneTransform(void* outVec,
 
 
       //find the good frame
-      unsigned int LowerRefFrame = 0;
+      unsigned int lowerRefFrame = 0;
       for(unsigned int i=0;  i<animblock.frames.nbElement;  i++)
       {
          if ( currentFrame < frame[i] || (i == animblock.frames.nbElement-1 && currentFrame == frame[i] ) ) 
          { 
-            LowerRefFrame = i; break; 
+            lowerRefFrame = i; break; 
          }
       }
 
-      if ( LowerRefFrame >= 1 )
+      if ( lowerRefFrame >= 1 )
       {
-         LowerRefFrame -= 1;
-         float LerpValue = ((float)currentFrame - (float)frame[LowerRefFrame]) / ((float)frame[LowerRefFrame+1] - (float)frame[LowerRefFrame]);
+         lowerRefFrame -= 1;
+         float lerpValue = ((float)currentFrame - (float)frame[lowerRefFrame]) / ((float)frame[lowerRefFrame+1] - (float)frame[lowerRefFrame]);
 
          if ( transformType == 2 )
          {
@@ -381,9 +381,9 @@ void ModelM3::GetBoneTransform(void* outVec,
 
             D3DXVec4Lerp(
                 (D3DXVECTOR4*)outVec,
-                &data[LowerRefFrame  ],  
-                &data[LowerRefFrame+1],  
-                LerpValue);
+                &data[lowerRefFrame  ],  
+                &data[lowerRefFrame+1],  
+                lerpValue);
          }
          else
          {
@@ -391,9 +391,9 @@ void ModelM3::GetBoneTransform(void* outVec,
 
             D3DXVec3Lerp(
                 (D3DXVECTOR3*)outVec,  
-                &data[LowerRefFrame  ],  
-                &data[LowerRefFrame+1],  
-                LerpValue);
+                &data[lowerRefFrame  ],  
+                &data[lowerRefFrame+1],  
+                lerpValue);
          }
 
       }
@@ -458,17 +458,17 @@ for(unsigned int iSubmesh=0; iSubmesh<nbRegn; iSubmesh++)
          //if there is a weight
          if ( m_StaticMeshVB[iVertex].weBone[iWeight] > 0 ) 
          { 
-            unsigned short BoneIndice = m_StaticMeshVB[iVertex].realOwnerBones[iWeight];
+            unsigned short boneIndice = m_StaticMeshVB[iVertex].realOwnerBones[iWeight];
 
             D3DXVECTOR4 pos = m_StaticMeshVB[iVertex].posXiref[iWeight];
 
-            pos.x *= m_BoneScale[BoneIndice].x;
-            pos.y *= m_BoneScale[BoneIndice].y;
-            pos.z *= m_BoneScale[BoneIndice].z;
+            pos.x *= m_BoneScale[boneIndice].x;
+            pos.y *= m_BoneScale[boneIndice].y;
+            pos.z *= m_BoneScale[boneIndice].z;
 				
-            vecXquat((D3DXVECTOR3*)(&pos),&m_BoneRotation[BoneIndice]);
+            vecXquat((D3DXVECTOR3*)(&pos),&m_BoneRotation[boneIndice]);
 
-            finalPos += ((D3DXVECTOR3)(pos) + m_BoneTranslation[BoneIndice]) * m_StaticMeshVB[iVertex].weBone[iWeight];
+            finalPos += ((D3DXVECTOR3)(pos) + m_BoneTranslation[boneIndice]) * m_StaticMeshVB[iVertex].weBone[iWeight];
          }
 
       }
