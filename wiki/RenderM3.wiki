@@ -37,7 +37,7 @@ struct DIV_
 
 I made exceptions for some structures. Indeed, it’s sometime easier for coding to add some extra-informations in the struct.
 
-For example, a Ref is a reference to a chunck of data, so it’s easier to get the pointer of the data in the Ref struct :
+For example, a Ref is a reference to a chunk of data, so it’s easier to get the pointer of the data in the Ref struct :
 
 {{{	
 struct Ref
@@ -72,12 +72,12 @@ DIV_* div = (DIV_*)(m_mdata.mDIV.pData);
 REGN* regn = (REGN*)(div[0].submesh.pData);
 unsigned int nbRegn = div[0].submesh.nbElement;
 BAT_* bat = (BAT_*)(div[0].BAT.pData);
-unsigned short* BoneLU = (unsigned short*)(m_mdata.mBoneLU.pData);
+unsigned short* boneLU = (unsigned short*)(m_mdata.mBoneLU.pData);
 unsigned int nbBoneLU = m_mdata.mBoneLU.nbElement;
 D3DXMATRIXA16* iref = (D3DXMATRIXA16*)(m_mdata.mIREF.pData);
 unsigned int nbIref = m_mdata.mIREF.nbElement;
-LPDIRECT3DVERTEXBUFFER9 VertexBuffer = (LPDIRECT3DVERTEXBUFFER9)(m_mdata.mVert.pData);
-LPDIRECT3DINDEXBUFFER9 IndexBuffer = (LPDIRECT3DINDEXBUFFER9)(div[0].faces.pData);
+LPDIRECT3DVERTEXBUFFER9 vertexBuffer = (LPDIRECT3DVERTEXBUFFER9)(m_mdata.mVert.pData);
+LPDIRECT3DINDEXBUFFER9 indexBuffer = (LPDIRECT3DINDEXBUFFER9)(div[0].faces.pData);
 unsigned int nbVertex = m_mdata.mVert.nbElement;
 unsigned int nbIndex = div[0].faces.nbElement;
 MATM* matm = (MATM*)(m_mdata.mMatLU.pData);
@@ -89,7 +89,7 @@ About the vertex buffer : I stocked it into 2 buffers:
   * The LPDIRECT3DVERTEXBUFFER9 that is here:
 {{{
 //This is the buffer that I use for rendering
-LPDIRECT3DVERTEXBUFFER9 VertexBuffer = (LPDIRECT3DVERTEXBUFFER9)(m_mdata.mVert.pData);
+LPDIRECT3DVERTEXBUFFER9 vertexBuffer = (LPDIRECT3DVERTEXBUFFER9)(m_mdata.mVert.pData);
 }}}
 
   * And the Vertex structure that is directly a member of my class:
@@ -114,18 +114,18 @@ if ( div[0].submesh.nbElement != div[0].BAT.nbElement ) { ERROR_MESSAGE("submesh
 //for each REGN, find its BAT (avoid to do that at each frame)
 for(unsigned int iRegion=0; iRegion<div[0].submesh.nbElement; iRegion++)
 {
-   regn[iRegion].LinkBat = NULL;
+   regn[iRegion].linkBat = NULL;
    //for each BAT
    for(unsigned int iBat=0; iBat<div[0].BAT.nbElement; iBat++)
    {
       if ( bat[iBat].subid == iRegion ) 
       {  
-         //BAT_* LinkBat is a member of the struc REGN that isn’t in the real file structure. 
+         //BAT_* linkBat is a member of the struc REGN that isn’t in the real file structure. 
          //I add it in my structure in order to save this optimization.
-         regn[iRegion].LinkBat = &bat[iBat];
+         regn[iRegion].linkBat = &bat[iBat];
       }
    }
-   if ( regn[iRegion].LinkBat == NULL ) { ERROR_MESSAGE("no link bat for this region ?"); }
+   if ( regn[iRegion].linkBat == NULL ) { ERROR_MESSAGE("no link bat for this region ?"); }
 }
 
 //pre-compute for each bones
@@ -165,7 +165,7 @@ for(unsigned int iBone=0; iBone<m_mdata.mBone.nbElement; iBone++)
 //for each vertex
 for(unsigned int iVert=0; iVert < m_mdata.mVert.nbElement; iVert++)
 {
-   unsigned short OwnerRegion = 0xffFF;
+   unsigned short ownerRegion = 0xffFF;
 
    //search the good REGN
    for(unsigned int iRegn=0; iRegn<nbRegn ; iRegn++)
@@ -174,11 +174,11 @@ for(unsigned int iVert=0; iVert < m_mdata.mVert.nbElement; iVert++)
       unsigned long maxv = minv + regn[iRegn].vnum;
       if ( iVert >= minv && iVert < maxv )
       {
-         OwnerRegion = iRegn;
+         ownerRegion = iRegn;
          break;
       }
    }
-   if ( OwnerRegion == 0xFFff ) { ERROR_MESSAGE("OwnerRegion ?"); }
+   if ( ownerRegion == 0xFFff ) { ERROR_MESSAGE("ownerRegion ?"); }
 
    //for each weight
    for(unsigned int iWeight = 0; iWeight < 4; iWeight++)
@@ -188,7 +188,7 @@ for(unsigned int iVert=0; iVert < m_mdata.mVert.nbElement; iVert++)
       { 
          //unsigned short realOwnerBones[4] is a member of the struc Vertex that isn’t in the real file structure. 
          //I add it in my structure in order to save this optimization.
-         m_StaticMeshVB[iVert].realOwnerBones[iWeight] = BoneLU[  m_StaticMeshVB[iVert].weIndice[iWeight] + regn[OwnerRegion].bind  ];
+         m_StaticMeshVB[iVert].realOwnerBones[iWeight] = boneLU[  m_StaticMeshVB[iVert].weIndice[iWeight] + regn[ownerRegion].bind  ];
 
          if(m_StaticMeshVB[iVert].realOwnerBones[iWeight] == 0xffFF) { ERROR_MESSAGE("bone not find"); }
          if ( m_StaticMeshVB[iVert].realOwnerBones[iWeight] >= m_mdata.mIREF.nbElement ) { ERROR_MESSAGE("BoneIndice >= nbIref"); }
@@ -260,25 +260,25 @@ if ( timeOfCurrentAnim >= currentAnimationLength )
 for(unsigned int iBone=0; iBone<m_mdata.mBone.nbElement; iBone++)
 {
 
-   short IndiceBoneParent = bone[iBone].boneparent;
+   short indiceBoneParent = bone[iBone].boneparent;
 
    GetBoneTransform(&m_BoneTranslation[iBone], &bone[iBone].transid, 1, *timeOfCurrentAnim,currentAnimationLength, &bone[iBone].pos,currentSTC);	
    GetBoneTransform(&m_BoneRotation[iBone],    &bone[iBone].rotid,   2, *timeOfCurrentAnim,currentAnimationLength, &bone[iBone].rot,currentSTC );		
    GetBoneTransform(&m_BoneScale[iBone],       &bone[iBone].scaleid, 3, *timeOfCurrentAnim,currentAnimationLength, &bone[iBone].scale,currentSTC);
 
-   if ( IndiceBoneParent != -1 )
+   if ( indiceBoneParent != -1 )
    {
-      m_BoneScale[iBone].x *= m_BoneScale[IndiceBoneParent].x;
-      m_BoneScale[iBone].y *= m_BoneScale[IndiceBoneParent].y;
-      m_BoneScale[iBone].z *= m_BoneScale[IndiceBoneParent].z;
+      m_BoneScale[iBone].x *= m_BoneScale[indiceBoneParent].x;
+      m_BoneScale[iBone].y *= m_BoneScale[indiceBoneParent].y;
+      m_BoneScale[iBone].z *= m_BoneScale[indiceBoneParent].z;
 
-      D3DXQuaternionMultiply(&m_BoneRotation[iBone],&m_BoneRotation[iBone],&m_BoneRotation[IndiceBoneParent]);
+      D3DXQuaternionMultiply(&m_BoneRotation[iBone],&m_BoneRotation[iBone],&m_BoneRotation[indiceBoneParent]);
 			
-      m_BoneTranslation[iBone].x *= m_BoneScale[IndiceBoneParent].x;
-      m_BoneTranslation[iBone].y *= m_BoneScale[IndiceBoneParent].y;
-      m_BoneTranslation[iBone].z *= m_BoneScale[IndiceBoneParent].z;
-      vecXquat(&m_BoneTranslation[iBone],&m_BoneRotation[IndiceBoneParent]);
-      m_BoneTranslation[iBone] += m_BoneTranslation[IndiceBoneParent];
+      m_BoneTranslation[iBone].x *= m_BoneScale[indiceBoneParent].x;
+      m_BoneTranslation[iBone].y *= m_BoneScale[indiceBoneParent].y;
+      m_BoneTranslation[iBone].z *= m_BoneScale[indiceBoneParent].z;
+      vecXquat(&m_BoneTranslation[iBone],&m_BoneRotation[indiceBoneParent]);
+      m_BoneTranslation[iBone] += m_BoneTranslation[indiceBoneParent];
 
    }
 
@@ -290,17 +290,22 @@ Here is the GetBoneTransform function:
 
 {{{
 
+//outVector.w is not always use.
+//transformType: 
+//   1: translation(outVector is D3DXVECTOR3*)  
+//   2: rotation (outVector is D3DXQUATERNION*)    
+//   3: scaling (outVector is D3DXVECTOR3*)  
 void ModelM3::GetBoneTransform(void* outVec, 
                                Animref* animReference, 
-                               char TransformType, 
-                               unsigned int CurrentFrame, 
-                               unsigned int AnimationLength, 
+                               char transformType, 
+                               unsigned int currentFrame, 
+                               unsigned int animationLength, 
                                void* ifNoAnim, 
                                unsigned int currentSTC)
 {
-   if ( TransformType == 0 || TransformType >= 4 )
+   if ( transformType == 0 || transformType >= 4 )
    {
-      ERROR_MESSAGE("TransformType = 1, 2 or 3");
+      ERROR_MESSAGE("transformType = 1, 2 or 3");
    }
 
    STC_* stc = (STC_*)(m_mdata.mSTC.pData);
@@ -314,8 +319,8 @@ void ModelM3::GetBoneTransform(void* outVec,
 	
    if ( ID == 0xFFffFFff ) 
    { 
-      if ( TransformType == 1 ) { *((D3DXVECTOR3*)outVec)    = *((D3DXVECTOR3*)ifNoAnim); }
-      if ( TransformType == 2 ) { *((D3DXQUATERNION*)outVec) = *((D3DXQUATERNION*)ifNoAnim); }
+      if ( transformType == 1 ) { *((D3DXVECTOR3*)outVec)    = *((D3DXVECTOR3*)ifNoAnim); }
+      if ( transformType == 2 ) { *((D3DXQUATERNION*)outVec) = *((D3DXQUATERNION*)ifNoAnim); }
       else                      { *((D3DXVECTOR3*)outVec)    = *((D3DXVECTOR3*)ifNoAnim); }
    }
    else
@@ -324,22 +329,22 @@ void ModelM3::GetBoneTransform(void* outVec,
       unsigned short correctID;
       Ref* refAnimBlock;
 
-      if ( TransformType == 1 )//translation
+      if ( transformType == 1 )//translation
       {
          correctID = 2;
          refAnimBlock = & stc[currentSTC].Trans;
       }
-      else if ( TransformType == 2 )//rotation
+      else if ( transformType == 2 )//rotation
       {
          correctID = 3;
          refAnimBlock = & stc[currentSTC].Rot;
       }
-      else if ( TransformType == 3 )//scaling
+      else if ( transformType == 3 )//scaling
       {
          correctID = 2;
          refAnimBlock = & stc[currentSTC].Trans;
       }
-      else { ERROR_MESSAGE("TransformType ?"); }
+      else { ERROR_MESSAGE("transformType ?"); }
 
       //check that it's a good ID
       if ( animoffs[ID].sdind != correctID ) { ERROR_MESSAGE_1("%d isn't a good ID",animoffs[ID].sdind); }
@@ -349,8 +354,8 @@ void ModelM3::GetBoneTransform(void* outVec,
 
       Animblock animblock = ((Animblock*)(refAnimBlock->pData))[animoffs[ID].aind];
 		
-      //I have never seen M3 with animblock.framelength != AnimationLength...
-      if ( animblock.framelength != AnimationLength ) { ERROR_MESSAGE("animblock.framelength != AnimationLength"); }
+      //I have never seen M3 with animblock.framelength != animationLength...
+      if ( animblock.framelength != animationLength ) { ERROR_MESSAGE("animblock.framelength != animationLength"); }
 
       unsigned int* frame = (unsigned int*)(animblock.frames.pData);
 
@@ -359,7 +364,7 @@ void ModelM3::GetBoneTransform(void* outVec,
       unsigned int LowerRefFrame = 0;
       for(unsigned int i=0;  i<animblock.frames.nbElement;  i++)
       {
-         if ( CurrentFrame < frame[i] || (i == animblock.frames.nbElement-1 && CurrentFrame == frame[i] ) ) 
+         if ( currentFrame < frame[i] || (i == animblock.frames.nbElement-1 && currentFrame == frame[i] ) ) 
          { 
             LowerRefFrame = i; break; 
          }
@@ -368,9 +373,9 @@ void ModelM3::GetBoneTransform(void* outVec,
       if ( LowerRefFrame >= 1 )
       {
          LowerRefFrame -= 1;
-         float LerpValue = ((float)CurrentFrame - (float)frame[LowerRefFrame]) / ((float)frame[LowerRefFrame+1] - (float)frame[LowerRefFrame]);
+         float LerpValue = ((float)currentFrame - (float)frame[LowerRefFrame]) / ((float)frame[LowerRefFrame+1] - (float)frame[LowerRefFrame]);
 
-         if ( TransformType == 2 )
+         if ( transformType == 2 )
          {
             D3DXVECTOR4* data = (D3DXVECTOR4*)(animblock.data.pData);
 
@@ -421,7 +426,7 @@ m_pd3dDevice->SetTransform( D3DTS_WORLD, ident);
 for(unsigned int iSubmesh=0; iSubmesh<nbRegn; iSubmesh++)
 {
    //set the marterial
-   unsigned long MaterialUsed =  matm[ regn[iSubmesh].LinkBat->matid  ].MatInd;
+   unsigned long MaterialUsed =  matm[ regn[iSubmesh].linkBat->matid  ].MatInd;
    if ( matm[ bat[iSubmesh].matid  ].nMat != 1 ) 
    { 
       ERROR_MESSAGE("nb of materials != 1"); 
@@ -439,7 +444,7 @@ for(unsigned int iSubmesh=0; iSubmesh<nbRegn; iSubmesh++)
    //now, we update vertices (for the moment, I haven’t find another way that use the lock-unkock... 
    //I think there is faster methods, if you have any suggestion, I would be happy to know them)
    VERTEX_MD3* vg;
-   HRESULT hr = VertexBuffer->Lock( 0, 0, (void**)&vg, 0 );
+   HRESULT hr = vertexBuffer->Lock( 0, 0, (void**)&vg, 0 );
    if ( hr != D3D_OK ) { ERROR_MESSAGE("Lock vertex Buffer"); }
 
    //for each vertex of the current submesh
@@ -474,11 +479,11 @@ for(unsigned int iSubmesh=0; iSubmesh<nbRegn; iSubmesh++)
    
    }
 
-   VertexBuffer->Unlock();
+   vertexBuffer->Unlock();
 
 	
-   m_pd3dDevice->SetStreamSource( 0, VertexBuffer, 0, sizeof(VERTEX_MD3) );
-   m_pd3dDevice->SetIndices(  IndexBuffer  );
+   m_pd3dDevice->SetStreamSource( 0, vertexBuffer, 0, sizeof(VERTEX_MD3) );
+   m_pd3dDevice->SetIndices(  indexBuffer  );
    m_pd3dDevice->SetFVF(D3DFVF_VERTEX_MD3);
 		
    m_pd3dDevice->DrawIndexedPrimitive( 
