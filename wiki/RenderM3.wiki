@@ -234,14 +234,14 @@ And now, let’s update ! :
 
 {{{
 //this is how I get the Lengh of the current animation :
-unsigned long CurrentAnimationLength;
+unsigned long currentAnimationLength;
 if ( stc[currentSTC].Trans.pData != NULL )
 {
-   CurrentAnimationLength = ((Animblock*)(stc[currentSTC].Trans.pData))[0].framelength;
+   currentAnimationLength = ((Animblock*)(stc[currentSTC].Trans.pData))[0].framelength;
 }
 else if ( stc[currentSTC].Rot.pData != NULL )
 {
-   CurrentAnimationLength = ((Animblock*)(stc[currentSTC].Rot.pData))[0].framelength;
+   currentAnimationLength = ((Animblock*)(stc[currentSTC].Rot.pData))[0].framelength;
 }
 else
 {
@@ -250,9 +250,9 @@ else
 
 //update the time of the current animation
 timeOfCurrentAnim += deltaTime;
-if ( timeOfCurrentAnim >= CurrentAnimationLength ) 
+if ( timeOfCurrentAnim >= currentAnimationLength ) 
 {
-   timeOfCurrentAnim = *timeOfCurrentAnim % CurrentAnimationLength;
+   timeOfCurrentAnim = *timeOfCurrentAnim % currentAnimationLength;
 }
 
 
@@ -262,23 +262,23 @@ for(unsigned int iBone=0; iBone<m_mdata.mBone.nbElement; iBone++)
 
    short IndiceBoneParent = bone[iBone].boneparent;
 
-   GetBoneTransform(&BoneTranslation[iBone], &bone[iBone].transid, 1, *timeOfCurrentAnim,CurrentAnimationLength, &bone[iBone].pos,currentSTC);	
-   GetBoneTransform(&BoneRotation[iBone],    &bone[iBone].rotid,   2, *timeOfCurrentAnim,CurrentAnimationLength, &bone[iBone].rot,currentSTC );		
-   GetBoneTransform(&BoneScale[iBone],       &bone[iBone].scaleid, 3, *timeOfCurrentAnim,CurrentAnimationLength, &bone[iBone].scale,currentSTC);
+   GetBoneTransform(&m_BoneTranslation[iBone], &bone[iBone].transid, 1, *timeOfCurrentAnim,currentAnimationLength, &bone[iBone].pos,currentSTC);	
+   GetBoneTransform(&m_BoneRotation[iBone],    &bone[iBone].rotid,   2, *timeOfCurrentAnim,currentAnimationLength, &bone[iBone].rot,currentSTC );		
+   GetBoneTransform(&m_BoneScale[iBone],       &bone[iBone].scaleid, 3, *timeOfCurrentAnim,currentAnimationLength, &bone[iBone].scale,currentSTC);
 
    if ( IndiceBoneParent != -1 )
    {
-      BoneScale[iBone].x *= BoneScale[IndiceBoneParent].x;
-      BoneScale[iBone].y *= BoneScale[IndiceBoneParent].y;
-      BoneScale[iBone].z *= BoneScale[IndiceBoneParent].z;
+      m_BoneScale[iBone].x *= m_BoneScale[IndiceBoneParent].x;
+      m_BoneScale[iBone].y *= m_BoneScale[IndiceBoneParent].y;
+      m_BoneScale[iBone].z *= m_BoneScale[IndiceBoneParent].z;
 
-      D3DXQuaternionMultiply(&BoneRotation[iBone],&BoneRotation[iBone],&BoneRotation[IndiceBoneParent]);
+      D3DXQuaternionMultiply(&m_BoneRotation[iBone],&m_BoneRotation[iBone],&m_BoneRotation[IndiceBoneParent]);
 			
-      BoneTranslation[iBone].x *= BoneScale[IndiceBoneParent].x;
-      BoneTranslation[iBone].y *= BoneScale[IndiceBoneParent].y;
-      BoneTranslation[iBone].z *= BoneScale[IndiceBoneParent].z;
-      vecXquat(&BoneTranslation[iBone],&BoneRotation[IndiceBoneParent]);
-      BoneTranslation[iBone] += BoneTranslation[IndiceBoneParent];
+      m_BoneTranslation[iBone].x *= m_BoneScale[IndiceBoneParent].x;
+      m_BoneTranslation[iBone].y *= m_BoneScale[IndiceBoneParent].y;
+      m_BoneTranslation[iBone].z *= m_BoneScale[IndiceBoneParent].z;
+      vecXquat(&m_BoneTranslation[iBone],&m_BoneRotation[IndiceBoneParent]);
+      m_BoneTranslation[iBone] += m_BoneTranslation[IndiceBoneParent];
 
    }
 
@@ -457,13 +457,13 @@ for(unsigned int iSubmesh=0; iSubmesh<nbRegn; iSubmesh++)
 
             D3DXVECTOR4 pos = m_StaticMeshVB[iVertex].posXiref[iWeight];
 
-            pos.x *= BoneScale[BoneIndice].x;
-            pos.y *= BoneScale[BoneIndice].y;
-            pos.z *= BoneScale[BoneIndice].z;
+            pos.x *= m_BoneScale[BoneIndice].x;
+            pos.y *= m_BoneScale[BoneIndice].y;
+            pos.z *= m_BoneScale[BoneIndice].z;
 				
-            vecXquat((D3DXVECTOR3*)(&pos),&BoneRotation[BoneIndice]);
+            vecXquat((D3DXVECTOR3*)(&pos),&m_BoneRotation[BoneIndice]);
 
-            FinalPos += ((D3DXVECTOR3)(pos) + BoneTranslation[BoneIndice]) * m_StaticMeshVB[iVertex].weBone[iWeight];
+            FinalPos += ((D3DXVECTOR3)(pos) + m_BoneTranslation[BoneIndice]) * m_StaticMeshVB[iVertex].weBone[iWeight];
          }
 
       }
