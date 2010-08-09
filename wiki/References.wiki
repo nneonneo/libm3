@@ -14,7 +14,7 @@ Each reference header contains the data type in the list, the number of entries 
 There is a fourth value in the reference header, which purpose is unknown. But the size of the block can depend on this value.
 For example the MODL block in units/buildings have a different value here compared to the MODL block in skyboxes, and the size of the block / number of fields in the block is different.
 
-Each animation sequence has related SD-blocks which references the data used by the animation. Animation references used in bones use a unique uint32 ID to reference sequence data found in STC.
+Each animation sequence has related SD-blocks which references the data used by the animation. Animation references use a unique uint32 ID to reference sequence animation data found in STC. Following animation reference are two values, the initial value before animation, another value that seems to have no effect and a uint32 flag. The value types depend on the animation reference (i.e. VEC3D, Quat, uint32, etc).
 
 {{{
 // MD33
