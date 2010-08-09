@@ -14,8 +14,6 @@ Each reference header contains the data type in the list, the number of entries 
 There is a fourth value in the reference header, which purpose is unknown. But the size of the block can depend on this value.
 For example the MODL block in units/buildings have a different value here compared to the MODL block in skyboxes, and the size of the block / number of fields in the block is different.
 
-Each animation sequence has related SD-blocks which references the data used by the animation. Animation references use a unique uint32 ID to reference sequence animation data found in STC. Following animation reference are two values, the initial value before animation, another value that seems to have no effect and a uint32 flag. The value types depend on the animation reference (i.e. VEC3D, Quat, uint32, etc).
-
 {{{
 // MD33
 // Size = 8 byte / 0x08 byte
@@ -45,6 +43,11 @@ struct ReferenceEntry
     /*0x08*/ uint32 nEntries; 
     /*0x0C*/ uint32 d1; // Possibly nReferences;
 };
+}}}
+
+= Animation References =
+Each animation sequence has related SD-blocks which references the data used by the animation. Animation references use a unique uint32 ID to reference sequence animation data found in STC. Following animation references are two values, the initial value before animation and another value of the same type that seems to have no effect. Following these is a uint32 flag that seems to always be 0. The value types depend on the animation reference (i.e. VEC3D, Quat, uint32, etc).
+{{{
 
 // Size = 8 Byte / 0x08 byte
 // Incomplete
@@ -53,5 +56,29 @@ struct AnimationReference
     /*0x00*/ uint16 flags; //usually 1
     /*0x02*/ uint16 animflag; //6 indicates animation data present
     /*0x04*/ uint32 animid; //a unique uint32 value referenced in STC.animid and STS.animid
+};
+
+struct Aref_UINT32
+{
+    AnimationReference AnimRef; //STC/STS reference
+    uint32 value; //initial value
+    uint32 unValue; //unused value
+    uint32 flag; //seems unused, 0
+};
+
+struct Aref_VEC3D
+{
+    AnimationReference AnimRef; //STC/STS reference
+    Vec3 value; //initial value
+    Vec3 unValue; //unused value
+    uint32 flag; //seems unused, 0
+};
+
+struct Aref_QUAT
+{
+    AnimationReference AnimRef; //STC/STS reference
+    QUAT value; //initial value
+    QUAT unValue; //unused value
+    uint32 flags; //seems unused, 0
 };
 }}}
