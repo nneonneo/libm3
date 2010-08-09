@@ -13,36 +13,56 @@ The bones as defined in the .m3 files.
 // Incomplete
 struct BONE
 {
-    /*0x00*/ int32 d1; // Keybone?
+    /*0x00*/ int32 d1; // Keybone? usually -1
     /*0x04*/ Reference name;
-    /*0x0C*/ uint32 flags; //2560 = Weighted vertices rendered, 512 = not rendered
-    /*0x10*/ int16 parent;
-    /*0x12*/ uint16 s1;
-    /*0x14*/ AnimationReference transid; //unique animation ID ref
-    /*0x1C*/ VEC3 pos; //bone position is relative to parent bone and its rotation
-    /*0x28*/ int32 d2[4];
-    /*0x38*/ AnimationReference rotid;
-    /*0x40*/ QUAT rot; //initial bone rotation
-    /*0x50*/ int32 d3[3];
-    /*0x5C*/ float f1;
-    /*0x60*/ int32 d4;
-    /*0x64*/ AnimationReference scaleid;
-    /*0x6C*/ VEC3 scale; //initial scale
-    /*0x78*/ VEC3 v1;
-    /*0x84*/ int32 d5[6]; //appears to have another unknown animation ref at 0x84
+    /*0x10*/ uint32 flags; //see below
+    /*0x14*/ int16 parent;
+    /*0x16*/ uint16 s1;
+    /*0x18*/ AnimationReference transid; //unique animation ID ref
+    /*0x20*/ VEC3 pos; //bone position is relative to parent bone and its rotation
+    /*0x2C*/ VEC3 unkPos; //unused position, usually [0, 0, 0]
+    /*0x38*/ int32 d2;
+    /*0x3C*/ AnimationReference rotid;
+    /*0x44*/ QUAT rot; //initial bone rotation
+    /*0x54*/ QUAT unkRot; //unused quat rotation, usually [0, 0, 0, 1]
+    /*0x64*/ int32 d3;
+    /*0x68*/ AnimationReference scaleid;
+    /*0x70*/ VEC3 scale; //initial scale
+    /*0x7C*/ VEC3 unkScale; //unused scale, usually [1, 1, 1]
+    /*0x88*/ int32 d4;
+    /*0x8C*/ AnimationReference ar1; //appears to have another unknown animation ref at 0x8C
+    /*0x94*/ int32 ar1data; // initial anim data for the reference, appears to be an int
+    /*0x98*/ int32 unkAr1data; //unused data like the other anim refs?
+    /*0x9C*/ int32 d5;
 };
 
 }}}
 
+== Bone Flags ==
+Most flags have been determined through the previewer.
+
+|| *Bit Index* || *Bit Address* || * Flag * || * Description * ||
+|| 1 || 0x1 || Inherit translation || Inherit translation from parent bone ||
+|| 2 || 0x2 || Inherit scale || Inherit scale from parent bone ||
+|| 3 || 0x4 || Inherit rotation|| Inherit rotation from parent bone ||
+|| 5 || 0x10 || Billboard (1) || Billboard bone ||
+|| 7 || 0x40 || Billboard (2) || Billboard bone (again) ||
+|| 9 || 0x100 || 2D Projection || Projects the bone in 2D? ||
+|| 10 || 0x200 || Animated || Bone has [STC] (transform) data. Will ignore [STC] data if set to false ||
+|| 11 || 0x400 || Inverse Kinematics || Grants the bone IK properties in the game engine ||
+|| 12 || 0x800 || Skinned || Bone has associated geometry. Necessary for rendering geometry weighted to the bone ||
+|| 14 || 0x2000 || Unknown || Always set to true in Blizzard models. No apparent effect ||
+
+
 = Extra Bone Information =
 
 == Bone Configuration ==
-The initial position, rotation and scale values are in relation to the parent bone if the bone has one. This is different to WoW's M2 model format which had pivot points for their bones in absolute coordinates and no initial rotation or scale values. These bones would be positioned within the initial bindpose of the mesh. Bone animation would then deform the mesh accordingly.
+M3 bones have two initial configurations that are in two different formats. The bindpose is first setup using bone matrices which can be found in the IREF chunks. Secondly, once the mesh is weighted to the bones, the initial position, rotation and scale values are applied to a bone in relation to the parent bone if the bone has one. In 3ds Max to apply these transformations appropriately, you have to begin at the deepest bones first and work your way up. This places the model in what I've decided to call the base pose. It's unclear what the purpose of the base pose is, but it seems to have relevance to how the model behaves in the absence of sequence transform data. This is different to WoW's M2 model format which had pivot points for their bones to setup the bindpose and lacked any kind of base pose.
 
-For M3's, the initial bone configuration is setup which does not fit properly into the initial mesh created from the geometry data. My guess is that weighting of the vertices causes the vertice data to interpolate to the bones position after the bones have been setup. How this is done when vertices are weighted to multiple bones I'm not sure (a point between the bones involved?) but this is my best guess for now as to how the mesh binds to the initial bone configuration.
+Some of Blizzards models use a terrible feature of 3ds Max that allows you to mirror bones by using negative scales. Examples of this can be found in Immortal.m3 and DarkTemplar.m3 aswell as I'm sure other models where the original artist has decided to mirror the bones through this tool. This can cause serious problems when correctly trying to animate bones outside of the Starcraft engine. In 3ds Max this is particularly a problem as rotations do not factor in the negative scaling resulting in improper orientation of bones during animations. A workaround is to force the bones to use a transform matrix with the negative scaling applied for each rotation keyframe and remove the extra keyframes generated in the scale and translation controllers.
 
 == Animation References ==
-M3's use an odd system for referencing their animation data. There is a global list of all animation data represented in the `MODL.STC` structures for each animation sequence. AnimationReferences found in bones contain animflags of 6 when they contain data for at least one of the animations. Regardless of whether they contain data, they will always have a unique uint32 ID which I suppose is randomly generated. These ID's are referenced in `MODL.STC.animid` list if there is animation data present for that particular animation type in that particular animation sequence, if they are not referenced it indicates there is null animation data for that animation type.
+M3's use an odd system for referencing their animation data. There is a global list of all animation data represented in the [STC] structures for each animation sequence. AnimationReferences found in bones contain animflags of 6 when they contain data for at least one of the animations. Regardless of whether they contain data, they will always have a unique uint32 ID which I suppose is randomly generated. These ID's are referenced in `MODL.STC.animid` list if there is animation data present for that particular animation type in that particular animation sequence, if they are not referenced it indicates there is null animation data for that animation type.
 
 In order to gather the correct animation data from the reference, you must iterate through the `STC.animid` list of uint32 ID's and find the matching ID in the list. Once you find that index, you check the same index in the next section of `STC.animindex` which provides the sequence data index and the index into the sequence data array present in STC. 
 
