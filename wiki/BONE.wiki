@@ -18,22 +18,10 @@ struct BONE
     /*0x10*/ uint32 flags; //see below
     /*0x14*/ int16 parent;
     /*0x16*/ uint16 s1;
-    /*0x18*/ AnimationReference transid; //unique animation ID ref
-    /*0x20*/ VEC3 pos; //bone position is relative to parent bone and its rotation
-    /*0x2C*/ VEC3 unkPos; //unused position, usually [0, 0, 0]
-    /*0x38*/ int32 d2;
-    /*0x3C*/ AnimationReference rotid;
-    /*0x44*/ QUAT rot; //initial bone rotation
-    /*0x54*/ QUAT unkRot; //unused quat rotation, usually [0, 0, 0, 1]
-    /*0x64*/ int32 d3;
-    /*0x68*/ AnimationReference scaleid;
-    /*0x70*/ VEC3 scale; //initial scale
-    /*0x7C*/ VEC3 unkScale; //unused scale, usually [1, 1, 1]
-    /*0x88*/ int32 d4;
-    /*0x8C*/ AnimationReference ar1; //appears to have another unknown animation ref at 0x8C
-    /*0x94*/ int32 ar1data; // initial anim data for the reference, appears to be an int
-    /*0x98*/ int32 unkAr1data; //unused data like the other anim refs?
-    /*0x9C*/ int32 d5;
+    /*0x18*/ Aref_VEC3D trans; //Translation animation reference
+    /*0x3C*/ Aref_QUAT rot; //Rotation animation reference
+    /*0x68*/ Aref_VEC3D scale; //Scale animation reference
+    /*0x8C*/ Aref_UINT32 ar1; //Unknown
 };
 
 }}}
@@ -66,4 +54,4 @@ M3's use an odd system for referencing their animation data. There is a global l
 
 In order to gather the correct animation data from the reference, you must iterate through the `STC.animid` list of uint32 ID's and find the matching ID in the list. Once you find that index, you check the same index in the next section of `STC.animindex` which provides the sequence data index and the index into the sequence data array present in STC. 
 
-As an example (all values are arbitrary), if you're trying to find rotation data in a bone, you grab the rotid.animid from the bone. You go to the animation sequence data you want to animate this bone with, say `MODL.STC[2]`, iterate through `STC[2].animid` until you find the animid in the list and record its index as 6. You go to `STC[2].animind[6]` and record the `STC[2].animind[6].aind` as 8 and `STC[2].animind[6].sdind` as 3. You'll find the appropriate sequence data for that bone in the `MODL.STC[2].SeqData[3].SD4Q[8]` SD (Sequence Data) chunk and can animate the bone accordingly. I hope this clarifies how animation data is referenced in the M3 file format.
+As an example (all values are arbitrary), if you're trying to find rotation data in a bone, you grab the rot.AnimRef.animid from the bone. You go to the animation sequence data you want to animate this bone with, say `MODL.STC[2]`, iterate through `STC[2].animid` until you find the animid in the list and record its index as 6. You go to `STC[2].animind[6]` and record the `STC[2].animind[6].aind` as 8 and `STC[2].animind[6].sdind` as 3. You'll find the appropriate sequence data for that bone in the `MODL.STC[2].SeqData[3].SD4Q[8]` SD (Sequence Data) chunk and can animate the bone accordingly. I hope this clarifies how animation data is referenced in the M3 file format.
