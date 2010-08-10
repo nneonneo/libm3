@@ -1,5 +1,4 @@
-
-Shaders in Starcraft 2
+#summary Shaders in Starcraft 2
 
 = Introduction =
 
