@@ -36,19 +36,19 @@ struct STC
 
 = Sequence Data Types =
 Known Sequence Data types:
-|| *SD ID* || *Index* || * Type * || * Data ID * || * Found In * || * Description * ||
-|| SDEV || 0 || _Event_ || [SD#EVNT EVNT] || Unknown || Event Animation? ||
-|| SD2V || 1 || _Vector 2D_ || [SD#VEC2 VEC2] || [PAR] || Unknown ||
-|| SD3V || 2 || _Vector 3D_ || [SD#VEC3 VEC3] || [BONE] || Translation/Scale ||
-|| SD4Q || 3 || _Quaternion_ || [SD#QUAT QUAT] || [BONE] || Rotation ||
-|| SDCC || 4 || _Colour (4 byte floats)_ || [SD#COL COL] || [RIB] || Colour (Blue, Green, Red, Alpha) ||
-|| SDR3 || 5 || _Float_ || [SD#REAL REAL] || [PAR] || Unknown ||
-|| SDS6 || 7 || _int16_ || I16 || Unknown || Unknown ||
-|| SDFG || 11 || _int32_ || [SD#FLAG FLAG] || [RIB] || Flags? ||
-|| SDMB || 12 || _Extent_ || [SD#BNDS BNDS] || [DIV#MSEC MSEC] || Bounding Sphere ||
+|| *SD ID* || *Index* || * Type * || * Data ID * || * Found In * || * Anim. Ref Type * || * Description * ||
+|| SDEV || 0 || _Event_ || [SD#EVNT EVNT] || Unknown || Unknown || Event Animation? ||
+|| SD2V || 1 || _Vector 2D_ || [SD#VEC2 VEC2] || [PAR] || Aref_VEC2D || Unknown ||
+|| SD3V || 2 || _Vector 3D_ || [SD#VEC3 VEC3] || [BONE] || Aref_VEC3D || Translation/Scale ||
+|| SD4Q || 3 || _Quaternion_ || [SD#QUAT QUAT] || [BONE] || Aref_QUAT || Rotation ||
+|| SDCC || 4 || _Colour (4 byte floats)_ || [SD#COL COL] || [RIB] || Aref_Colour || Colour (Blue, Green, Red, Alpha) ||
+|| SDR3 || 5 || _Float_ || [SD#REAL REAL] || [PAR] || Aref_FLOAT || Unknown ||
+|| SDS6 || 7 || _int16_ || I16 || Unknown || Aref_INT16 || Unknown ||
+|| SDFG || 11 || _int32_ || [SD#FLAG FLAG] || [RIB] || Aref_UINT32 || Flags? ||
+|| SDMB || 12 || _Extent_ || [SD#BNDS BNDS] || [DIV#MSEC MSEC] || Aref_Sphere || Bounding Sphere ||
 
 == Sequence Data Information ==
-Translation and Scaling animation data use the same [SD Sequence Data] entry, SD3V which uses [SD#VEC3 VEC3]'s for keyframes. [SD#EVNT EVNT] animations determine the end of an animation sequence. Sequences that are part of a looped series require 'Evt_SeqEnd' [SD#EVNT EVNT] keyframes so that they only loop once in the sequence. Examples of these animations are Stand animations, which typically all loop, but each only plays once in the loop and are picked based on their frequency setting of their corresponding SEQS entry.
+Translation and Scaling animation data use the same [SD Sequence Data] entry, SD3V which uses [SD#VEC3 VEC3]'s for keyframes. [SD#EVNT EVNT] animations determine the end of an animation sequence. Sequences that are part of a looped series require `Evt_SeqEnd` [SD#EVNT EVNT] keyframes so that they only loop once in the sequence. Examples of these animations are Stand animations, which typically all loop, but each only plays once in the loop and are picked based on their frequency setting of their corresponding SEQS entry.
 
 == Animation References ==
 Animation references indirectly reference the data found in the Sequence Data arrays. See the [BONE] animation data description to get a handle on how STC data is referenced using animation references. I believe there will be a total of 13 different types of animation references, one for each index of the sequence data array. So far only some have been discovered within M3 files.
