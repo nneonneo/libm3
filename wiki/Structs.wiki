@@ -54,18 +54,9 @@ struct BONE
     /*0x0C*/ uint32 flags; //2560 = Weighted vertices rendered, 512 = not rendered
     /*0x10*/ int16 parent;
     /*0x12*/ uint16 s1;
-    /*0x14*/ AnimRef transid; //unique animation ID ref
-    /*0x1C*/ VEC3 pos; //bone position is relative to parent bone and its rotation
-    /*0x28*/ int32 d2[4];
-    /*0x38*/ AnimRef rotid;
-    /*0x40*/ QUAT rot; //initial bone rotation
-    /*0x50*/ int32 d3[3];
-    /*0x5C*/ float f1;
-    /*0x60*/ int32 d4;
-    /*0x64*/ AnimRef scaleid;
-    /*0x6C*/ VEC3 scale; //initial scale
-    /*0x78*/ VEC3 v1;
-    /*0x84*/ int32 d5[6];
+    /*0x14*/ Aref_VEC3D trans;
+    /*0x38*/ Aref_QUAT rot;
+    /*0x64*/ Aref_VEC3D scale;
     //appears to have another animation ref at 0x8C but not sure what for
 };
 
@@ -94,45 +85,31 @@ struct LAYR
 {
     uint32 d1;
     Reference name;
-    AnimRef ar1;
-    uint32 d2[6]; //d2[5] determines team colour
-    AnimRef ar2;
-    float f1[2];
-    uint32 d3;
-    AnimRef ar3;
-    uint32 d4[4];
-    int32 d5;
-    uint32 d6[5];
-    AnimRef ar4;
-    uint32 d7[3];
-    AnimRef ar5;
-    uint32 d8[5];
-    AnimRef ar6;
-    uint32 d9[2];
-    AnimRef ar7;
-    float f2[2];
-    uint32 d10[3];
-    AnimRef ar8;
-    float f3;
-    uint32 d11;
-    float f4;
-    uint32 d12[4];
-    AnimRef ar9;
-    float f5[4];
-    uint32 d13;
-    AnimRef ar10;
-    uint32 d14[3];
-    AnimRef ar11;
-    float f6[2];
-    uint32 d15;
-    AnimRef ar12;
-    float f7[2];
-    uint32 d16;
-    int32 d17;
-    uint32 d18;
-    float f8;
-    uint32 d19;
-    float f9[2];
+    Aref_Colour colour;
+    uint32 uvFlags;
+    uint32 uvChannel; //used like flags in decal maps so they use a different uv channel
+    uint32 alphaFlags;
+    Aref_FLOAT bright_mult1;
+    Aref_FLOAT bright_mult2;
+    uint32 d1;
+    uint8 col2[4];
+    uint32 d2[2];
+    int32 d3;
+    uint32 d4[2];
+    Aref_UINT32 ar1;
+    Aref_VEC2D ar2;
+    Aref_UINT16 ar3;
+    Aref_VEC2D ar4;
+    Aref_VEC3D uvAngle; //max angle = uvAngle * 50 * -1
+    Aref_VEC2D uvTiling;
+    Aref_UINT32 ar5;
+    Aref_FLOAT ar6;
+    Aref_FLOAT brightness;
+    int32 d5; //unknown purpose, seems to affect uv coords, should be set to -1
+    uint32 tintFlags;
+    float tintStrength; //set to 4 by default in Blizzard models
+    float tintUnk; //unknown purpose relating to tint
+    float f1[2]; //seems to be more settings for tint
 };
 
 // Size = 32 byte / 0x20 byte
@@ -168,7 +145,9 @@ struct REGN
     /*0x10*/ uint16 boneCount; //boneLookup total count (redundant?)
     /*0x12*/ uint16 indBone; //indice into boneLookup
     /*0x14*/ uint16 numBone; //number of bones used from boneLookup
-    /*0x16*/ uint16 s1[3]; //flags? vital for sc2 engine rendering the geometry
+    /*0x16*/ uint16 s1;
+    /*0x20*/ uint8 b1[2]; //flags? should be set to 1
+    /*0x22*/ uint16 rootBone;
 };
 
 // Size = 72 byte / 0x48 byte
@@ -176,9 +155,7 @@ struct REGN
 struct MSEC
 {
     /*0x00*/ uint32 d1; //always 0?
-    /*0x04*/ AnimRef bounds; //Bounding box animation ref in STC
-    /*0x0C*/ extent ext1; //Some kind of mesh extent?
-    /*0x28*/ uint32 d2[8];
+    /*0x04*/ Aref_Sphere bndSphere;
 };
 
 // Size = 176 byte / 0xB0 byte
@@ -230,18 +207,18 @@ struct SD
 // Incomplete
 struct SEQS
 {
-    /*0x00*/ int32 d1;
-    /*0x04*/ int32 d2;
+    /*0x00*/ int32 d1[2]; //usually -1
     /*0x08*/ Reference name;
-    /*0x10*/ int32 d3;
-    /*0x14*/ int32 length;
-    /*0x18*/ int32 d4;
-    /*0x1C*/ uint32 flags;
-    /*0x20*/ int32 unk[5];
-    /*0x34*/ Vec3D extents[2];
-    /*0x4C*/ float radius;
-    /*0x50*/ int32 d5;
-    /*0x54*/ int32 d6;
+    /*0x14*/ uint32 animStart; //start frame
+    /*0x18*/ uint32 animEnd; //end frame
+    /*0x1C*/ float moveSpeed; //used in movement animations (walk, run)
+    /*0x20*/ uint32 flags;
+    /*0x24*/ uint32 frequency; //play frequency ratio
+    /*0x28*/ uint32 replayStart; //in most Blizzard models set to 1
+    /*0x2C*/ uint32 replayEnd; //in most Blizzard models also set to 1
+    /*0x30*/ uint32 d2[2]; //usually 0
+    /*0x38*/ Sphere bndSphere
+    /*0x58*/ uint32 d3[2]; //usually 0
 };
 
 // Size = 4 byte / 0x04 byte
@@ -269,10 +246,10 @@ struct STC
 // Incomplete
 struct STS
 {
-    /*0x00*/ Reference animid; // uint32
-    /*0x08*/ int32 unk[3];
-    /*0x14*/ int16 s1;
-    /*0x16*/ int16 s2;
+    /*0x00*/ Reference animid; //uint32 values, same as what's in STC?
+    /*0x08*/ int32 d1[3]; //usually -1
+    /*0x14*/ int16 s1; //usually -1
+    /*0x16*/ uint16 s2; //usually 0
 };
 
 // Size = 16 byte / 0x10 byte
@@ -287,8 +264,7 @@ struct STG
 // Incomplete
 struct BNDS
 {
-    /*0x00*/ Vec3D extents1[2];
-    /*0x18*/ float radius1;
+    /*0x00*/ Sphere bndSphere;
 };
 
 // Size = 64 byte / 0x40 byte
@@ -316,5 +292,12 @@ struct VEC4
 struct QUAT
 {
     float, x, y, z, w;
+};
+
+struct Sphere
+{
+    Vec3D min;
+    Vec3D max;
+    float radius;
 };
 }}}
