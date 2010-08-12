@@ -1,5 +1,4 @@
-#summary One-sentence summary of this page.
-
+#summary Material Definitions
 = Introduction =
 
 Material definitions for the M3 model. Materials act as a container for a group of bitmaps such as diffuse, specular, emissive, etc. They have general properties that play a role in how the bitmaps are ultimately rendered on the model. [MATM] are referenced in the [DIV] [BAT] matid's and function as a lookup table into these definitions.
