@@ -102,7 +102,7 @@ convUV = 1770.9 (1771)
 }}}
 
 === Normal Values ===
-Three steps which can probably be combined into one by the mathematically minded. A note on the scale (norm[4]) value, it seems almost always to be 0 or 1 and nothing inbetween. I'm not sure if the w value need be used at all however it is present in Blizzard generated vertex normals.
+Three steps which can probably be combined into one by the mathematically minded. A note on the scale (`norm[4]`) value, it seems almost always to be 0 or 1 and nothing inbetween. I'm not sure if the w value need be used at all however it is present in Blizzard generated vertex normals.
 {{{
 realNorm = norm / 255.0
 realNorm = realNorm * 2
