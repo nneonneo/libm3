@@ -1,7 +1,7 @@
 #summary Material Lookup Definition.
 
 = Introduction =
-MATM is a material lookup table referenced by [DIV BAT] structures in the [DIV] definition. It functions as a reference to the type and the index of a particular type of material. More information on materials can be found in the [MaterialsDefinitions material definitions] documentation.
+MATM is a material lookup table referenced by [DIV BAT] structures in the [DIV] definition. It functions as a reference to the type and the index of a particular type of material. More information on materials can be found in the [MaterialDefinitions material definitions] documentation.
 
 
 = Details =
