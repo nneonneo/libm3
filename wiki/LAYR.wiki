@@ -67,7 +67,7 @@ Flags that affect the way the bitmap alpha is handled.
 Some bitmaps use what I've decided to call tint. I'm not an expert on materials so I'm not sure on the accuracy of calling it tint. It seems to affect how the model responds to light, at least that's what I observe. Further clarification is needed. Good examples of this interesting effect can be found in the CastanarStasisTube models.
 
 == Tint Flags ==
-Flags that affect how tint, aswell as a texture flag
+Flags that affect control tint, aswell as a texture flag?
 || *Bit Index* || *Bit Address* || * Flag * ||
 || 1 || 0x1 || Inverse tint || 
 || 2 || 0x2 || Tint ||  
