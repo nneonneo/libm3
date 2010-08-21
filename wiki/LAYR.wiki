@@ -71,4 +71,4 @@ Flags that affect how tint, aswell as a texture flag
 || *Bit Index* || *Bit Address* || * Flag * ||
 || 1 || 0x1 || Inverse tint || 
 || 2 || 0x2 || Tint ||  
-|| 3 || 0x4 || Use [References Aref_Colours], just like in Texture Flags ||
+|| 3 || 0x4 || Use [References Aref_Colour] values, just like in Texture Flags ||
