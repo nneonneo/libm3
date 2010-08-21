@@ -19,8 +19,8 @@ struct MATM
 Probably only 5 or 6 material types exist total. I've only come across 4 at the moment but I have not looked particularly hard for the others.
 || *Value* || *Material Type* || *Material Definition* ||
 || 0 || Unused || Unused ||
-|| 1 || Standard || [Material_Definition MAT] ||
-|| 2 || Displacement || [Material_Definition DIS] ||
-|| 3 || Composite || [Material_Definition CMP] ||
-|| 4 || Terrain (Null) || [Material_Definition TER] ||
-|| 5 || Unknown || [Material_Definition VOL] ||
+|| 1 || Standard || [MaterialDefinitions MAT] ||
+|| 2 || Displacement || [MaterialDefinitions DIS] ||
+|| 3 || Composite || [MaterialDefinitions CMP] ||
+|| 4 || Terrain (Null) || [MaterialDefinitions TER] ||
+|| 5 || Unknown || [MaterialDefinitions VOL] ||
