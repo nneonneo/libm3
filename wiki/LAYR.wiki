@@ -25,7 +25,7 @@ struct LAYR
     /*0x30*/ Aref_FLOAT brightness_mult1;
     /*0x44*/ Aref_FLOAT brightness_mult2; //works very similar to the first
     /*0x58*/ uint32 d4;
-    /*0x5C*/ int32 d5[4]; //should be set to -1 or else texture not rendered
+    /*0x5C*/ int32 d5; //should be set to -1 or else texture not rendered
     /*0x60*/ uint32 d6[2];
     /*0x68*/ int32 d7; //set to -1 in animated bitmaps
     /*0x6C*/ uint32 d8[2];
@@ -72,4 +72,3 @@ Flags that affect how tint, aswell as a texture flag
 || 1 || 0x1 || Inverse tint || 
 || 2 || 0x2 || Tint ||  
 || 3 || 0x4 || Use [References Aref_Colours], just like in Texture Flags ||
-
