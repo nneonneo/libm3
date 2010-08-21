@@ -12,7 +12,7 @@ The previewer contains no information related to bitmaps except the bitmap filen
 
 {{{
 
-// Size = 268 bytes / 0x10C bytes
+// Size = 356 bytes / 0x164 bytes
 // Incomplete
 struct LAYR
 {
