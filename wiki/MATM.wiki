@@ -1,0 +1,26 @@
+#summary Material Lookup Definition.
+
+= Introduction =
+MATM is a material lookup table referenced by [DIV BAT] structures in the [DIV] definition. It functions as a reference to the type and the index of a particular type of material. More information on materials can be found in the [MaterialsDefinitions material definitions] documentation.
+
+
+= Details =
+{{{
+// Size = 8 bytes / 0x08 bytes
+// Complete
+struct MATM
+{
+    /*0x00*/ ulong matType; //see below for known types
+    /*0x04*/ ulong matIndex; //index into matType array
+};
+}}}
+
+== Material Types ==
+Probably only 5 or 6 material types exist total. I've only come across 4 at the moment but I have not looked particularly hard for the others.
+|| *Value* || *Material Type* || *Material Definition* ||
+|| 0 || Unused || Unused ||
+|| 1 || Standard || [Material_Definition MAT] ||
+|| 2 || Displacement || [Material_Definition DIS] ||
+|| 3 || Composite || [Material_Definition CMP] ||
+|| 4 || Terrain (Null) || [Material_Definition TER] ||
+|| 5 || Unknown || [Material_Definition VOL] ||
